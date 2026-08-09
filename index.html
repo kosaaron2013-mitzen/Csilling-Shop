@@ -354,12 +354,16 @@ betoltTermekek();
 
 /* COPYRIGHT A NAGY TÜRKIZ BLOKK ALJÁN */
 .footer-main .copyright {
-    grid-column: 1 / -1;
-    text-align: center;
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    box-sizing: border-box;
+    text-align: center !important;
     color: white;
     background: transparent;
     padding: 35px 10px 20px;
-    margin-top: 20px;
+    margin: 20px 0 0 0;
+    justify-self: stretch;
+    align-self: end;
 }
 
 .footer-column h3 {
