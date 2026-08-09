@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CsillingShop Rendelések</title>
+
+<style>
+
+body{
+    font-family:Arial;
+    background:#f5f5f5;
+    padding:20px;
+}
+
+.box{
+    max-width:800px;
+    margin:auto;
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 0 15px #ccc;
+}
+
+.order{
+    background:linear-gradient(135deg,#e0f7fa,#80cbc4);
+    padding:15px;
+    margin:15px 0;
+    border-radius:10px;
+}
+
+select{
+    padding:8px;
+    border-radius:8px;
+}
+
+h1{
+    color:#00897b;
+}
+
+
+/* ===== AUTOMATIKUS MOBIL NÉZET ===== */
+@media(max-width:700px){
+ body{padding:10px;overflow-x:hidden}
+ .box{width:100%;box-sizing:border-box;padding:18px 12px}
+ h1{font-size:25px}
+ .order{padding:12px;margin:10px 0;overflow-wrap:anywhere}
+ .order h2{font-size:19px}
+ .order p{font-size:14px;line-height:1.45}
+ select{width:100%;box-sizing:border-box;font-size:16px}
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="box">
+
+<h1>📦 CsillingShop Rendelések</h1>
+
+<div id="rendelesLista"></div>
+
+
+</div>
+
+
+
+<script>
+
+
+let rendelesek =
+JSON.parse(localStorage.getItem("rendelesek")) || [];
+
+
+
+function betolt(){
+
+
+let lista =
+document.getElementById("rendelesLista");
+
+
+lista.innerHTML="";
+
+
+if(rendelesek.length === 0){
+
+lista.innerHTML="<h3>Még nincs rendelés.</h3>";
+
+return;
+
+}
+
+
+
+rendelesek.forEach((r,index)=>{
+
+
+lista.innerHTML += `
+
+<div class="order">
+
+<h2>🛍️ Rendelés #${index+1}</h2>
+
+
+<p>
+<b>Név:</b> ${r.nev}
+</p>
+
+
+<p>
+<b>Cím:</b> ${r.cim}
+</p>
+
+
+<p>
+<b>Email:</b> ${r.email}
+</p>
+
+
+<p>
+<b>Termékek:</b><br>
+${r.termekek}
+</p>
+
+
+<p>
+<b>Összeg:</b> ${r.osszeg} Ft
+</p>
+
+
+<p>
+<b>Állapot:</b>
+
+<select onchange="allapot(${index},this.value)">
+
+<option ${r.allapot=="Új"?"selected":""}>
+Új
+</option>
+
+<option ${r.allapot=="Feldolgozás alatt"?"selected":""}>
+Feldolgozás alatt
+</option>
+
+<option ${r.allapot=="Elküldve"?"selected":""}>
+Elküldve
+</option>
+
+</select>
+
+</p>
+
+
+</div>
+
+`;
+
+
+});
+
+
+}
+
+
+
+function allapot(index,ertek){
+
+rendelesek[index].allapot=ertek;
+
+
+localStorage.setItem(
+"rendelesek",
+JSON.stringify(rendelesek)
+);
+
+
+}
+
+
+
+betolt();
+
+
+</script>
+
+
+</body>
+</html>

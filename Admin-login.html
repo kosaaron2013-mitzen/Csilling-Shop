@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+
+<meta charset="UTF-8">
+<title>CsillingShop Admin Belépés</title>
+
+<style>
+
+body{
+    font-family:Arial;
+    background:#ff7eb3;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.box{
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+}
+
+input{
+    padding:12px;
+    margin:10px;
+    width:220px;
+}
+
+button{
+    padding:12px 30px;
+    background:#ff6fa5;
+    color:white;
+    border:0;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+
+/* ===== AUTOMATIKUS MOBIL NÉZET ===== */
+@media(max-width:700px){
+ body{padding:12px;box-sizing:border-box}
+ .box{width:100%;max-width:360px;box-sizing:border-box;padding:24px 16px}
+ h1{font-size:24px}
+ input{width:100%;box-sizing:border-box}
+ button{width:100%;box-sizing:border-box}
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<div class="box">
+
+<h1>🔐 CsillingShop Admin</h1>
+
+<input 
+type="password" 
+id="jelszo"
+placeholder="Jelszó">
+
+
+<br>
+
+<button onclick="belepes()">
+Belépés
+</button>
+
+
+<p id="hiba"></p>
+
+
+</div>
+
+
+
+<script>
+
+
+function belepes(){
+
+
+let jelszo =
+document.getElementById("jelszo").value;
+
+
+// Ezt változtasd meg saját jelszóra
+
+let helyesJelszo = "csillbill0ft";
+
+
+if(jelszo === helyesJelszo){
+
+
+localStorage.setItem(
+"admin",
+"igen"
+);
+
+
+window.location.href="admin.html";
+
+
+}
+
+else{
+
+
+document.getElementById("hiba").innerHTML =
+"Hibás jelszó!";
+
+
+}
+
+
+}
+
+
+</script>
+
+
+</body>
+</html>

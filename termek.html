@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CsillingShop Termék</title>
+
+<style>
+
+body{
+    font-family:Arial;
+    background:#f5f5f5;
+    padding:20px;
+}
+
+
+.box{
+    max-width:700px;
+    margin:auto;
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 0 15px #ccc;
+    text-align:center;
+}
+
+
+img{
+    width:80%;
+    max-width:400px;
+    border-radius:15px;
+}
+
+
+h1{
+    color:#00897b;
+}
+
+
+.ar{
+    font-size:28px;
+    color:#009688;
+    font-weight:bold;
+}
+
+
+.leiras{
+    background:#e0f7fa;
+    padding:15px;
+    border-radius:10px;
+    margin:20px 0;
+}
+
+
+button{
+
+background:#009688;
+color:white;
+border:0;
+padding:15px 25px;
+border-radius:10px;
+cursor:pointer;
+font-size:18px;
+
+}
+
+button:hover{
+
+background:#00796b;
+
+}
+
+
+
+/* ===== AUTOMATIKUS MOBIL NÉZET ===== */
+@media(max-width:700px){
+ body{padding:10px;overflow-x:hidden}
+ .box{width:100%;box-sizing:border-box;padding:18px 14px}
+ img{width:100%;max-width:100%}
+ h1{font-size:26px}
+ .ar{font-size:24px}
+ .leiras{text-align:left;padding:12px}
+ button{width:100%}
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="box">
+
+
+<img id="kep">
+
+
+<h1 id="nev"></h1>
+
+
+<p id="kat"></p>
+
+
+<p class="ar" id="ar"></p>
+
+
+<div class="leiras">
+
+<h3>📝 Leírás</h3>
+
+<p id="leiras"></p>
+
+</div>
+
+
+<p id="allapot"></p>
+
+
+<button onclick="kosarba()">
+🛒 Kosárba
+</button>
+
+
+</div>
+
+
+
+<script>
+
+
+let termek =
+JSON.parse(localStorage.getItem("kivalasztottTermek"));
+
+
+
+document.getElementById("kep").src =
+"kepek/" + termek.kep;
+
+
+document.getElementById("nev").innerHTML =
+termek.nev;
+
+
+document.getElementById("kat").innerHTML =
+"📂 " + termek.kat;
+
+
+document.getElementById("ar").innerHTML =
+termek.ar + " Ft";
+
+
+document.getElementById("leiras").innerHTML =
+termek.leiras || "Nincs leírás";
+
+
+document.getElementById("allapot").innerHTML =
+"📦 " + termek.allapot;
+
+
+
+function kosarba(){
+
+
+let kosar =
+JSON.parse(localStorage.getItem("kosar")) || [];
+
+
+kosar.push(termek);
+
+
+localStorage.setItem(
+"kosar",
+JSON.stringify(kosar)
+);
+
+
+alert(
+termek.nev + " bekerült a kosárba! 🛒"
+);
+
+
+}
+
+
+
+</script>
+
+
+</body>
+
+</html>

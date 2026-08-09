@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CsillingShop Admin</title>
+
+<style>
+
+body{
+    font-family:Arial;
+    background:#f4f4f4;
+    padding:20px;
+}
+
+.box{
+    max-width:500px;
+    margin:auto;
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 0 15px #ccc;
+}
+
+input, select{
+    width:100%;
+    padding:12px;
+    margin:8px 0;
+    border-radius:8px;
+    border:1px solid #ccc;
+}
+
+textarea{
+    width:100%;
+    padding:12px;
+    margin:8px 0;
+    border-radius:8px;
+    border:1px solid #ccc;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    background:#ff6fa5;
+    color:white;
+    border:0;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.termek{
+    background:#eee;
+    padding:10px;
+    margin-top:10px;
+    border-radius:10px;
+}
+
+img{
+    width:100px;
+    border-radius:8px;
+}
+
+
+/* ===== AUTOMATIKUS MOBIL NÉZET ===== */
+@media(max-width:700px){
+ body{padding:10px;overflow-x:hidden}
+ .box{width:100%;box-sizing:border-box;padding:18px 14px}
+ h1{font-size:25px}
+ input,select,textarea{box-sizing:border-box;font-size:16px}
+ .termek{display:flex;flex-direction:column}
+ .termek img{width:100%;max-width:180px;align-self:center}
+ button{width:100%}
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+
+<h1>⚙️ CsillingShop Admin</h1>
+
+<h3>Új termék hozzáadása</h3>
+
+<input id="nev" placeholder="Termék neve">
+
+<input id="ar" placeholder="Ár Ft-ban">
+
+<select id="kat">
+    <option value="Állat játékok">🐾 Állat játékok</option>
+    <option value="Gyerek játékok">🧸 Gyerek játékok</option>
+    <option value="Tini cuccok">✨ Tini cuccok</option>
+</select>
+
+<input id="kep" placeholder="Kép neve (pl. rajz.jpg)">
+
+<textarea id="leiras" placeholder="Termék leírása"></textarea>
+
+<select id="allapot">
+<option>Elérhető</option>
+<option>Out of stock</option>
+</select>
+
+
+<button onclick="hozzaad()">
+Termék mentése
+</button>
+
+
+<h2>Termékek</h2>
+
+<div id="lista"></div>
+
+
+</div>
+
+if(localStorage.getItem("admin") !== "igen"){
+
+window.location.href="admin-login.html";
+
+}
+
+<script>
+
+let termekek =
+JSON.parse(localStorage.getItem("termekek")) || [];
+
+
+function hozzaad(){
+
+alert(document.getElementById("leiras").value);
+
+let termek = {
+
+nev: document.getElementById("nev").value,
+ar: document.getElementById("ar").value,
+kat: document.getElementById("kat").value,
+kep: document.getElementById("kep").value,
+leiras: document.getElementById("leiras").value,
+allapot: document.getElementById("allapot").value
+
+};
+
+termekek.push(termek);
+
+
+localStorage.setItem(
+"termekek",
+JSON.stringify(termekek)
+);
+
+
+mutat();
+
+}
+
+
+function mutat(){
+
+let lista=document.getElementById("lista");
+
+lista.innerHTML="";
+
+
+termekek.forEach((t,index)=>{
+
+lista.innerHTML += `
+
+<div class="termek">
+
+<img src="kepek/${t.kep}">
+
+<h3>${t.nev}</h3>
+
+<p>${t.ar} Ft</p>
+
+<p>${t.kat}</p>
+
+<p>${t.allapot}</p>
+
+<button onclick="torol(${index})">
+Törlés
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+function torol(index){
+
+termekek.splice(index,1);
+
+localStorage.setItem(
+"termekek",
+JSON.stringify(termekek)
+);
+
+mutat();
+
+}
+
+
+mutat();
+
+</script>
+
+
+</body>
+</html>

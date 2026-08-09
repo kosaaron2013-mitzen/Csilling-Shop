@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CsillingShop</title>
+
+<style>
+body {
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#f8f8f8;
+}
+
+header {
+    background:linear-gradient(90deg,#667eea,#764ba2);
+    color:white;
+    text-align:center;
+    padding:25px;
+}
+
+header h1 {
+    font-size:40px;
+    margin:0;
+}
+
+nav {
+    background:white;
+    padding:15px;
+    text-align:center;
+}
+
+nav button {
+    margin:5px;
+    padding:10px 20px;
+    border:none;
+    border-radius:20px;
+    cursor:pointer;
+}
+
+.shop {
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:20px;
+    padding:30px;
+}
+
+.product {
+    background:white;
+    width:260px;
+    padding:15px;
+    border-radius:15px;
+    box-shadow:0 0 15px #ddd;
+    text-align:center;
+}
+
+.product img {
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    border-radius:10px;
+}
+
+.price {
+    color:#764ba2;
+    font-size:22px;
+    font-weight:bold;
+}
+
+.buy {
+    background:#22223b;
+    color:white;
+    padding:12px;
+    border:0;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+#cart {
+    background:#333;
+    color:white;
+    padding:15px;
+    position:fixed;
+    right:20px;
+    top:20px;
+    border-radius:15px;
+}
+
+/* ===== AUTOMATIKUS MOBIL NÉZET ===== */
+@media (max-width:700px){
+ body{overflow-x:hidden}
+ header{padding:18px 12px}
+ header h1{font-size:30px}
+ header p{font-size:14px}
+ nav{padding:10px 6px;display:flex;flex-wrap:wrap;justify-content:center}
+ nav button{margin:3px;padding:9px 12px;font-size:13px}
+ #kereso{width:calc(100% - 30px)!important;box-sizing:border-box;margin:15px auto!important}
+ .shop{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:15px 10px}
+ .product{width:auto;padding:10px}
+ .product img{width:100%;height:150px}
+ .product h2{font-size:16px}
+ .price{font-size:18px!important}
+ .buy{width:100%;padding:10px 5px;font-size:13px}
+ #cart{right:10px;top:10px;padding:9px 11px;font-size:13px;z-index:10}
+}
+@media(max-width:380px){
+ .shop{grid-template-columns:1fr}
+ .product img{height:190px}
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="cart" onclick="megnyitKosar()" style="cursor:pointer">
+🛒 Kosár: <span id="cartCount">0</span>
+</div>
+
+
+<header>
+<h1>✨ CsillingShop ✨</h1>
+<p>Egyedi rajzok, játékok és tini cuccok</p>
+</header>
+
+
+<nav>
+
+<button onclick="kategoria('Állat játékok')">
+🐾 Állat játékok
+</button>
+
+<button onclick="kategoria('Gyerek játékok')">
+🧸 Gyerek játékok
+</button>
+
+<button onclick="kategoria('Tini cuccok')">
+✨ Tini cuccok
+</button>
+
+<button onclick="kategoria('Összes')">
+🛍️ Összes
+</button>
+
+</nav>
+
+<input 
+id="kereso"
+placeholder="🔎 Termék keresése..."
+oninput="keres()"
+style="
+width:80%;
+max-width:400px;
+padding:12px;
+margin:20px auto;
+display:block;
+border-radius:10px;
+border:1px solid #ccc;
+">
+
+<div class="shop" id="termekLista"></div>
+
+</div>
+
+
+<script>
+
+let termekek =
+JSON.parse(localStorage.getItem("termekek")) || [];
+
+let kosar =
+JSON.parse(localStorage.getItem("kosar")) || [];
+
+
+function betoltTermekek(kat = "Összes"){
+
+let lista = document.getElementById("termekLista");
+
+lista.innerHTML = "";
+
+
+termekek.forEach((t)=>{
+
+
+if(kat !== "Összes" && t.kat !== kat){
+    return;
+}
+
+
+lista.innerHTML += `
+
+<div class="product">
+
+<img 
+src="kepek/${t.kep}"
+onclick="termekOldal(${termekek.indexOf(t)})"
+style="cursor:pointer"
+>
+
+<h2>${t.nev}</h2>
+
+<p>${t.kat}</p>
+
+<p class="price">
+${t.ar} Ft
+</p>
+
+
+<button class="buy" onclick='kosarba(${JSON.stringify(t)})'>
+🛒 Kosárba
+</button>
+
+
+</div>
+
+`;
+
+});
+
+
+frissitKosarSzamlalo();
+
+}
+
+
+
+function kosarba(termek){
+
+kosar.push(termek);
+
+localStorage.setItem(
+"kosar",
+JSON.stringify(kosar)
+);
+
+
+frissitKosarSzamlalo();
+
+alert(termek.nev + " bekerült a kosárba!");
+
+}
+
+
+
+function termekOldal(index){
+
+localStorage.setItem(
+"kivalasztottTermek",
+JSON.stringify(termekek[index])
+);
+
+window.location.href="termek.html";
+
+}
+
+
+
+function frissitKosarSzamlalo(){
+
+document.getElementById("cartCount").innerHTML =
+kosar.length;
+
+}
+
+
+
+function megnyitKosar(){
+
+window.location.href="kosar.html";
+
+}
+
+function kategoria(kat){
+
+    betoltTermekek(kat);
+
+}
+
+
+function keres(){
+
+let szoveg = document.getElementById("kereso").value.toLowerCase();
+
+let lista = document.getElementById("termekLista");
+
+lista.innerHTML = "";
+
+
+termekek.forEach((t)=>{
+
+
+if(
+t.nev.toLowerCase().includes(szoveg) ||
+t.kat.toLowerCase().includes(szoveg)
+){
+
+lista.innerHTML += `
+
+<div class="product">
+
+<img src="kepek/${t.kep}">
+
+<h2>${t.nev}</h2>
+
+<p>${t.kat}</p>
+
+<p class="price">
+${t.ar} Ft
+</p>
+
+
+<button class="buy" onclick='kosarba(${JSON.stringify(t)})'>
+🛒 Kosárba
+</button>
+
+</div>
+
+`;
+
+}
+
+});
+
+
+frissitKosarSzamlalo();
+
+}
+
+betoltTermekek();
+
+
+</script>
+
+
+</body>
+</html>
