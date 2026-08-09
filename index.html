@@ -466,7 +466,7 @@ betoltTermekek();
 .admin-bottom {
     display: block;
     width: 220px;
-    margin: 35px auto 40px;
+    margin: 25px auto 25px;
     padding: 12px 20px;
     background: #20b2aa;
     color: white;
@@ -695,17 +695,26 @@ betoltTermekek();
     </div>
 
 
-    <!-- ADMIN BELÉPÉS -->
-
-    <button
-        class="admin-bottom"
-        onclick="window.location.href='admin-login.html'">
-
-        ⚙️ Admin belépés
-
-    </button>
+    
 
 </footer>
+
+<!-- ADMIN BELÉPÉS -->
+<button
+    class="admin-bottom"
+    onclick="window.location.href='admin-login.html'">
+    ⚙️ Admin belépés
+</button>
+
+<!-- VISSZA A TETEJÉRE -->
+<button
+    class="top-button"
+    onclick="window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    })">
+    ↑
+</button>
 
 
 <!-- VISSZA A TETEJÉRE -->
