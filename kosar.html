@@ -8,57 +8,183 @@
 
 <style>
 
-body{
-    font-family:Arial;
-    background:#f7f7f7;
-    padding:20px;
+* {
+    box-sizing: border-box;
 }
 
-.box{
-    max-width:700px;
-    margin:auto;
-    background:white;
-    padding:25px;
-    border-radius:15px;
-    box-shadow:0 0 15px #ccc;
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #073b4c, #006f70, #00a6a6);
+    min-height: 100vh;
+    padding: 30px 15px;
+    color: #123;
 }
 
-.item{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    background:#eee;
-    padding:10px;
-    margin:10px 0;
-    border-radius:10px;
+.box {
+    max-width: 700px;
+    margin: auto;
+    background: rgba(255,255,255,0.96);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
 }
 
-button{
-    background:linear-gradient(135deg,#00bcd4,#009688);
-    color:white;
-    border:0;
-    padding:10px;
-    border-radius:8px;
-    cursor:pointer;
+h1 {
+    text-align: center;
+    color: #007f83;
+    margin-top: 0;
+    margin-bottom: 25px;
 }
 
-input{
-    width:100%;
-    padding:12px;
-    margin:8px 0;
+h2 {
+    color: #006f70;
+    border-bottom: 2px solid #b9eeee;
+    padding-bottom: 8px;
 }
 
+h3 {
+    color: #007f83;
+    margin-bottom: 8px;
+}
 
-/* ===== AUTOMATIKUS MOBIL NÉZET ===== */
-@media(max-width:700px){
- body{padding:10px;overflow-x:hidden}
- .box{width:100%;box-sizing:border-box;padding:18px 14px}
- h1{font-size:25px}
- .item{gap:10px;padding:10px;font-size:14px}
- .item span{min-width:0;overflow-wrap:anywhere}
- .item button{width:auto;flex:0 0 auto}
- input,select{box-sizing:border-box;font-size:16px}
- button{width:100%}
+/* KOSÁR TERMÉKEK */
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #e0fafa, #c8f1f1);
+    border: 1px solid #9cdddd;
+    padding: 14px;
+    margin: 12px 0;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,100,100,0.08);
+}
+
+.item span {
+    color: #155b5c;
+    font-weight: bold;
+}
+
+.item button {
+    width: auto;
+    background: #e74c3c;
+    padding: 9px 13px;
+    border-radius: 8px;
+}
+
+.item button:hover {
+    background: #c0392b;
+}
+
+/* VÉGÖSSZEG */
+
+#osszeg {
+    color: #00a19d;
+    font-size: 28px;
+}
+
+/* INPUTOK */
+
+input,
+select {
+    width: 100%;
+    padding: 13px;
+    margin: 8px 0;
+    border: 2px solid #b5e5e5;
+    border-radius: 10px;
+    background: #f2ffff;
+    color: #145b5c;
+    font-size: 16px;
+    outline: none;
+}
+
+input:focus,
+select:focus {
+    border-color: #00a6a6;
+    box-shadow: 0 0 0 3px rgba(0,166,166,0.12);
+}
+
+/* SELECT */
+
+select {
+    cursor: pointer;
+}
+
+/* FŐ GOMB */
+
+.box > button {
+    width: 100%;
+    margin-top: 20px;
+    background: linear-gradient(135deg, #00c6c6, #008f91);
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 11px;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: bold;
+    box-shadow: 0 5px 15px rgba(0,130,130,0.25);
+    transition: 0.2s;
+}
+
+.box > button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,130,130,0.35);
+}
+
+.box > button:active {
+    transform: translateY(0);
+}
+
+/* MOBIL */
+
+@media(max-width:700px) {
+
+    body {
+        padding: 10px;
+    }
+
+    .box {
+        width: 100%;
+        padding: 20px 15px;
+        border-radius: 16px;
+    }
+
+    h1 {
+        font-size: 25px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    .item {
+        gap: 10px;
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .item span {
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+
+    .item button {
+        width: auto;
+        flex: 0 0 auto;
+    }
+
+    input,
+    select {
+        box-sizing: border-box;
+        font-size: 16px;
+    }
+
+    .box > button {
+        width: 100%;
+    }
 }
 
 </style>
@@ -69,49 +195,46 @@ input{
 
 <body>
 
-
 <div class="box">
 
-<h1>🛒 CsillingShop Kosár</h1>
+    <h1>🛒 CsillingShop Kosár</h1>
 
+    <div id="kosar"></div>
 
-<div id="kosar"></div>
+    <h2>
+        Végösszeg:
+        <span id="osszeg">0</span> Ft
+    </h2>
 
+    <h2>📦 Szállítási adatok</h2>
 
-<h2>
-Végösszeg:
-<span id="osszeg">0</span> Ft
-</h2>
+    <input placeholder="Név">
 
+    <input placeholder="Cím">
 
-<h2>📦 Szállítási adatok</h2>
+    <input placeholder="E-mail">
 
-<input placeholder="Név">
+    <h3>🚚 Szállítási mód</h3>
 
-<input placeholder="Cím">
+    <select id="szallitas" onchange="mutat()">
 
-<input placeholder="E-mail">
+        <option value="Csomagautomata - 999 Ft">
+            📦 Csomagautomata - 999 Ft
+        </option>
 
-<h3>🚚 Szállítási mód</h3>
+        <option value="Futár házhoz - 1990 Ft">
+            🚚 Futár házhoz - 1990 Ft
+        </option>
 
-<select id="szallitas" onchange="mutat()">
-    <option value="Csomagautomata - 999 Ft">
-        📦 Csomagautomata - 999 Ft
-    </option>
+        <option value="Személyes átvétel - 0 Ft">
+            🤝 Személyes átvétel - 0 Ft
+        </option>
 
-    <option value="Futár házhoz - 1990 Ft">
-        🚚 Futár házhoz - 1990 Ft
-    </option>
+    </select>
 
-    <option value="Személyes átvétel - 0 Ft">
-        🤝 Személyes átvétel - 0 Ft
-    </option>
-</select>
-
-<button onclick="rendeles()">
-Rendelés elküldése
-</button>
-
+    <button onclick="rendeles()">
+        🛍️ Rendelés elküldése
+    </button>
 
 </div>
 
@@ -119,191 +242,231 @@ Rendelés elküldése
 
 emailjs.init("f_7yUHQVlclTjAfvE");
 
-let kosar =
-JSON.parse(localStorage.getItem("kosar")) || [];
+let kosar = JSON.parse(localStorage.getItem("kosar")) || [];
 
 
-function mutat(){
+function szallitasiAr() {
 
-let lista=document.getElementById("kosar");
+    let szallitas = document.getElementById("szallitas");
 
-let osszeg=0;
-
-lista.innerHTML="";
-
-
-kosar.forEach((t,index)=>{
-
-
-osszeg += Number(t.ar);
-
-
-lista.innerHTML += `
-
-<div class="item">
-
-<span>
-${t.nev}
-<br>
-${t.ar} Ft
-</span>
-
-
-<button onclick="torol(${index})">
-❌
-</button>
-
-
-</div>
-
-`;
-
-});
-
-
-let szallitas = document.getElementById("szallitas");
-
-let szallitasiDij = 0;
-
-if(szallitas){
-    if(szallitas.value.includes("999")){
-        szallitasiDij = 999;
+    if (!szallitas) {
+        return 0;
     }
 
-    if(szallitas.value.includes("1990")){
-        szallitasiDij = 1990;
+    if (szallitas.value.includes("999")) {
+        return 999;
     }
-}
 
-document.getElementById("osszeg").innerHTML = osszeg + szallitasiDij;
+    if (szallitas.value.includes("1990")) {
+        return 1990;
+    }
 
-}
-
-
-function torol(index){
-
-kosar.splice(index,1);
-
-localStorage.setItem(
-"kosar",
-JSON.stringify(kosar)
-);
-
-mutat();
-
+    return 0;
 }
 
 
-function rendeles(){
+function mutat() {
 
-let nev = document.querySelectorAll("input")[0].value;
-let cim = document.querySelectorAll("input")[1].value;
-let email = document.querySelectorAll("input")[2].value;
-let szallitas = document.getElementById("szallitas").value;
+    let lista = document.getElementById("kosar");
 
+    let osszeg = 0;
 
-if(nev=="" || cim=="" || email==""){
-    alert("Kérlek töltsd ki az adatokat!");
-    return;
+    lista.innerHTML = "";
+
+    if (kosar.length === 0) {
+
+        lista.innerHTML = `
+            <div class="item">
+                <span>🛒 A kosarad jelenleg üres.</span>
+            </div>
+        `;
+
+    } else {
+
+        kosar.forEach((t, index) => {
+
+            osszeg += Number(t.ar);
+
+            lista.innerHTML += `
+
+                <div class="item">
+
+                    <span>
+                        ${t.nev}
+                        <br>
+                        ${t.ar} Ft
+                    </span>
+
+                    <button onclick="torol(${index})">
+                        ❌
+                    </button>
+
+                </div>
+
+            `;
+
+        });
+
+    }
+
+    let szallitasiDij = szallitasiAr();
+
+    document.getElementById("osszeg").innerHTML =
+        osszeg + szallitasiDij;
 }
 
 
-let termekLista = "";
+function torol(index) {
 
-let osszeg = 0;
+    kosar.splice(index, 1);
 
+    localStorage.setItem(
+        "kosar",
+        JSON.stringify(kosar)
+    );
 
-kosar.forEach(t=>{
-
-let szallitasDij = 0;
-
-if(szallitas.includes("999")){
-    szallitasDij = 999;
+    mutat();
 }
 
-if(szallitas.includes("1990")){
-    szallitasDij = 1990;
-}
 
-osszeg += szallitasDij;
+function rendeles() {
 
-termekLista += t.nev + " - " + t.ar + " Ft<br>";
+    let nev =
+        document.querySelectorAll("input")[0].value;
 
-osszeg += Number(t.ar);
+    let cim =
+        document.querySelectorAll("input")[1].value;
 
-});
+    let email =
+        document.querySelectorAll("input")[2].value;
 
-
-let rendelesek =
-JSON.parse(localStorage.getItem("rendelesek")) || [];
-
-
-let ujRendeles = {
-
-nev: nev,
-
-cim: cim,
-
-email: email,
-
-termekek: termekLista,
-
-osszeg: osszeg,
-
-allapot: "Új"
-
-};
+    let szallitas =
+        document.getElementById("szallitas").value;
 
 
-rendelesek.push(ujRendeles);
+    if (nev == "" || cim == "" || email == "") {
+
+        alert("Kérlek töltsd ki az adatokat!");
+
+        return;
+    }
 
 
-localStorage.setItem(
-"rendelesek",
-JSON.stringify(rendelesek)
-);
+    if (kosar.length === 0) {
 
-emailjs.send(
-    "service_siwsf4p",
-    "template_r6bn9il",
-    {
+        alert("A kosarad üres!");
+
+        return;
+    }
+
+
+    let termekLista = "";
+
+    let osszeg = 0;
+
+
+    kosar.forEach(t => {
+
+        termekLista +=
+            t.nev +
+            " - " +
+            t.ar +
+            " Ft<br>";
+
+        osszeg += Number(t.ar);
+
+    });
+
+
+    let szallitasiDij = szallitasiAr();
+
+    osszeg += szallitasiDij;
+
+
+    let rendelesek =
+        JSON.parse(
+            localStorage.getItem("rendelesek")
+        ) || [];
+
+
+    let ujRendeles = {
+
         nev: nev,
+
         cim: cim,
+
         email: email,
+
         termekek: termekLista,
-        szallitas: szallitas,
-        osszeg: osszeg
-    }
-)
-.then(function(){
-    alert("Rendelés elküldve! 🎉");
-})
-.catch(function(error){
-    alert("Hiba történt: " + JSON.stringify(error));
-});
 
-alert(
-"Köszönjük a rendelést! 🎉"
-);
+        osszeg: osszeg,
+
+        allapot: "Új"
+
+    };
 
 
-localStorage.removeItem("kosar");
+    rendelesek.push(ujRendeles);
 
 
-kosar=[];
+    localStorage.setItem(
+        "rendelesek",
+        JSON.stringify(rendelesek)
+    );
 
 
-mutat();
+    emailjs.send(
 
+        "service_siwsf4p",
+
+        "template_r6bn9il",
+
+        {
+
+            nev: nev,
+
+            cim: cim,
+
+            email: email,
+
+            termekek: termekLista,
+
+            szallitas: szallitas,
+
+            osszeg: osszeg
+
+        }
+
+    )
+
+    .then(function() {
+
+        alert("Rendelés elküldve! 🎉");
+
+    })
+
+    .catch(function(error) {
+
+        alert(
+            "Hiba történt: " +
+            JSON.stringify(error)
+        );
+
+    });
+
+
+    localStorage.removeItem("kosar");
+
+    kosar = [];
+
+    mutat();
 
 }
 
 
 mutat();
-
 
 </script>
-
 
 </body>
 </html>
