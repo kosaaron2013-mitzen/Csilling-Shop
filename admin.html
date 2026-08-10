@@ -8,14 +8,19 @@
 
 <style>
 
+*{
+    box-sizing:border-box;
+}
+
 body{
-    font-family:Arial;
+    font-family:Arial,sans-serif;
     background:#f4f4f4;
     padding:20px;
+    margin:0;
 }
 
 .box{
-    max-width:500px;
+    max-width:550px;
     margin:auto;
     background:white;
     padding:25px;
@@ -23,54 +28,202 @@ body{
     box-shadow:0 0 15px #ccc;
 }
 
-input, select{
-    width:100%;
-    padding:12px;
-    margin:8px 0;
-    border-radius:8px;
-    border:1px solid #ccc;
+h1{
+    margin-top:0;
 }
 
+input,
+select,
 textarea{
     width:100%;
     padding:12px;
     margin:8px 0;
     border-radius:8px;
     border:1px solid #ccc;
+    font-size:15px;
+}
+
+textarea{
+    min-height:100px;
+    resize:vertical;
 }
 
 button{
     width:100%;
     padding:12px;
-    background:#ff6fa5;
+    background:#20b2aa;
     color:white;
     border:0;
     border-radius:10px;
     cursor:pointer;
+    font-size:15px;
+    font-weight:bold;
+    transition:0.2s;
 }
+
+button:hover{
+    background:#159a94;
+    transform:translateY(-1px);
+}
+
+
+/* ===== TERMÉK ===== */
 
 .termek{
     background:#eee;
-    padding:10px;
-    margin-top:10px;
+    padding:15px;
+    margin-top:15px;
     border-radius:10px;
 }
 
-img{
+.termek img{
     width:100px;
+    height:100px;
+    object-fit:cover;
     border-radius:8px;
+    display:block;
+    margin-bottom:10px;
+}
+
+.termek h3{
+    margin:8px 0;
+}
+
+.termek p{
+    margin:6px 0;
 }
 
 
-/* ===== AUTOMATIKUS MOBIL NÉZET ===== */
+/* ===== SZERKESZTŐ ===== */
+
+.szerkeszto{
+    background:white;
+    border:1px solid #ccc;
+    border-radius:10px;
+    padding:12px;
+    margin-top:12px;
+    display:none;
+}
+
+.szerkeszto.aktiv{
+    display:block;
+}
+
+.szerkeszto label{
+    display:block;
+    font-weight:bold;
+    margin-top:8px;
+}
+
+.szerkeszto input,
+.szerkeszto select{
+    margin-top:5px;
+}
+
+
+/* ===== GOMBOK ===== */
+
+.gombok{
+    display:flex;
+    gap:8px;
+    margin-top:12px;
+}
+
+.gombok button{
+    flex:1;
+}
+
+.szerkesztes-gomb{
+    background:#20b2aa;
+}
+
+.szerkesztes-gomb:hover{
+    background:#159a94;
+}
+
+.torles-gomb{
+    background:#d93636;
+}
+
+.torles-gomb:hover{
+    background:#b92828;
+}
+
+.mentes-gomb{
+    background:#198754;
+}
+
+.mentes-gomb:hover{
+    background:#147044;
+}
+
+.megse-gomb{
+    background:#777;
+}
+
+.megse-gomb:hover{
+    background:#5f5f5f;
+}
+
+
+/* ===== ELÉRHETŐSÉG ===== */
+
+.allapot-elerheto{
+    color:#16823d;
+    font-weight:bold;
+}
+
+.allapot-kifogyott{
+    color:#c62828;
+    font-weight:bold;
+}
+
+
+/* ===== MOBIL ===== */
+
 @media(max-width:700px){
- body{padding:10px;overflow-x:hidden}
- .box{width:100%;box-sizing:border-box;padding:18px 14px}
- h1{font-size:25px}
- input,select,textarea{box-sizing:border-box;font-size:16px}
- .termek{display:flex;flex-direction:column}
- .termek img{width:100%;max-width:180px;align-self:center}
- button{width:100%}
+
+    body{
+        padding:10px;
+        overflow-x:hidden;
+    }
+
+    .box{
+        width:100%;
+        padding:18px 14px;
+    }
+
+    h1{
+        font-size:25px;
+    }
+
+    input,
+    select,
+    textarea{
+        box-sizing:border-box;
+        font-size:16px;
+    }
+
+    .termek{
+        display:flex;
+        flex-direction:column;
+    }
+
+    .termek img{
+        width:100%;
+        max-width:180px;
+        height:auto;
+        align-self:center;
+    }
+
+    .gombok{
+        flex-direction:column;
+    }
+
+    button{
+        width:100%;
+    }
+
 }
 
 </style>
@@ -79,134 +232,527 @@ img{
 
 <body>
 
+
 <div class="box">
 
-<h1>⚙️ CsillingShop Admin</h1>
-
-<h3>Új termék hozzáadása</h3>
-
-<input id="nev" placeholder="Termék neve">
-
-<input id="ar" placeholder="Ár Ft-ban">
-
-<select id="kat">
-    <option value="Sport kiegészítők">🏋️ Sport kiegészítők</option>
-    <option value="Gyerek játékok">🧸 Gyerek játékok</option>
-    <option value="Tini cuccok">✨ Tini cuccok</option>
-</select>
-
-<input id="kep" placeholder="Kép neve (pl. rajz.jpg)">
-
-<textarea id="leiras" placeholder="Termék leírása"></textarea>
-
-<select id="allapot">
-<option>Elérhető</option>
-<option>Kifogyott</option>
-</select>
+    <h1>⚙️ CsillingShop Admin</h1>
 
 
-<button onclick="hozzaad()">
-Termék mentése
-</button>
+    <!-- ==============================
+         ÚJ TERMÉK
+    =============================== -->
+
+    <h3>Új termék hozzáadása</h3>
 
 
-<h2>Termékek</h2>
+    <input
+        id="nev"
+        placeholder="Termék neve"
+    >
 
-<div id="lista"></div>
 
+    <input
+        id="ar"
+        type="number"
+        placeholder="Ár Ft-ban"
+    >
+
+
+    <select id="kat">
+
+        <option value="Sport kiegészítők">
+            🏋️ Sport kiegészítők
+        </option>
+
+        <option value="Gyerek játékok">
+            🧸 Gyerek játékok
+        </option>
+
+        <option value="Tini cuccok">
+            ✨ Tini cuccok
+        </option>
+
+    </select>
+
+
+    <input
+        id="kep"
+        placeholder="Kép neve (pl. rajz.jpg)"
+    >
+
+
+    <textarea
+        id="leiras"
+        placeholder="Termék leírása"
+    ></textarea>
+
+
+    <select id="allapot">
+
+        <option value="Elérhető">
+            Elérhető
+        </option>
+
+        <option value="Kifogyott">
+            Kifogyott
+        </option>
+
+    </select>
+
+
+    <button onclick="hozzaad()">
+        ➕ Termék mentése
+    </button>
+
+
+
+    <!-- ==============================
+         TERMÉKEK
+    =============================== -->
+
+    <h2>
+        Termékek
+    </h2>
+
+
+    <div id="lista"></div>
 
 </div>
 
-if(localStorage.getItem("admin") !== "igen"){
 
-window.location.href="admin-login.html";
-
-}
 
 <script>
 
-let termekek =
-JSON.parse(localStorage.getItem("termekek")) || [];
+/* ==========================================
+   ADMIN ELLENŐRZÉS
+========================================== */
 
+if(localStorage.getItem("admin") !== "igen"){
+
+    window.location.href = "admin-login.html";
+
+}
+
+
+/* ==========================================
+   TERMÉKEK BETÖLTÉSE
+========================================== */
+
+let termekek =
+    JSON.parse(
+        localStorage.getItem("termekek")
+    ) || [];
+
+
+
+/* ==========================================
+   ÚJ TERMÉK HOZZÁADÁSA
+========================================== */
 
 function hozzaad(){
 
-alert(document.getElementById("leiras").value);
+    const nev =
+        document.getElementById("nev").value.trim();
 
-let termek = {
+    const ar =
+        document.getElementById("ar").value.trim();
 
-nev: document.getElementById("nev").value,
-ar: document.getElementById("ar").value,
-kat: document.getElementById("kat").value,
-kep: document.getElementById("kep").value,
-leiras: document.getElementById("leiras").value,
-allapot: document.getElementById("allapot").value
+    const kat =
+        document.getElementById("kat").value;
 
-};
+    const kep =
+        document.getElementById("kep").value.trim();
 
-termekek.push(termek);
+    const leiras =
+        document.getElementById("leiras").value.trim();
 
-
-localStorage.setItem(
-"termekek",
-JSON.stringify(termekek)
-);
+    const allapot =
+        document.getElementById("allapot").value;
 
 
-mutat();
+    /* Ellenőrzés */
+
+    if(!nev){
+
+        alert("Írd be a termék nevét!");
+
+        return;
+    }
+
+
+    if(!ar){
+
+        alert("Írd be a termék árát!");
+
+        return;
+    }
+
+
+    if(!kep){
+
+        alert("Írd be a kép nevét!");
+
+        return;
+    }
+
+
+    /* Termék */
+
+    let termek = {
+
+        nev:nev,
+
+        ar:ar,
+
+        kat:kat,
+
+        kep:kep,
+
+        leiras:leiras,
+
+        allapot:allapot
+
+    };
+
+
+    termekek.push(termek);
+
+
+    localStorage.setItem(
+        "termekek",
+        JSON.stringify(termekek)
+    );
+
+
+    /* Mezők törlése */
+
+    document.getElementById("nev").value = "";
+
+    document.getElementById("ar").value = "";
+
+    document.getElementById("kep").value = "";
+
+    document.getElementById("leiras").value = "";
+
+    document.getElementById("allapot").value =
+        "Elérhető";
+
+
+    mutat();
+
+
+    alert("A termék sikeresen hozzáadva!");
 
 }
 
+
+
+/* ==========================================
+   TERMÉKEK MEGJELENÍTÉSE
+========================================== */
 
 function mutat(){
 
-let lista=document.getElementById("lista");
+    let lista =
+        document.getElementById("lista");
 
-lista.innerHTML="";
+
+    lista.innerHTML = "";
 
 
-termekek.forEach((t,index)=>{
+    if(termekek.length === 0){
 
-lista.innerHTML += `
+        lista.innerHTML =
+            "<p>Még nincs hozzáadott termék.</p>";
 
-<div class="termek">
+        return;
+    }
 
-<img src="kepek/${t.kep}">
 
-<h3>${t.nev}</h3>
+    termekek.forEach((t,index)=>{
 
-<p>${t.ar} Ft</p>
 
-<p>${t.kat}</p>
+        let allapotClass =
+            t.allapot === "Elérhető"
+            ? "allapot-elerheto"
+            : "allapot-kifogyott";
 
-<p>${t.allapot}</p>
 
-<button onclick="torol(${index})">
-Törlés
-</button>
+        lista.innerHTML += `
 
-</div>
+        <div class="termek">
 
-`;
+            <img
+                src="kepek/${t.kep}"
+                alt="${t.nev}"
+            >
 
-});
+
+            <h3>
+                ${t.nev}
+            </h3>
+
+
+            <p>
+                <strong>Ár:</strong>
+                ${t.ar} Ft
+            </p>
+
+
+            <p>
+                <strong>Kategória:</strong>
+                ${t.kat}
+            </p>
+
+
+            <p class="${allapotClass}">
+                <strong>Állapot:</strong>
+                ${t.allapot}
+            </p>
+
+
+            <div class="gombok">
+
+                <button
+                    class="szerkesztes-gomb"
+                    onclick="szerkeszt(${index})"
+                >
+                    ✏️ Szerkesztés
+                </button>
+
+
+                <button
+                    class="torles-gomb"
+                    onclick="torol(${index})"
+                >
+                    🗑️ Törlés
+                </button>
+
+            </div>
+
+
+            <div
+                class="szerkeszto"
+                id="szerkeszto-${index}"
+            >
+
+                <strong>
+                    Csak az ár és az elérhetőség módosítható
+                </strong>
+
+
+                <label>
+                    Ár (Ft)
+                </label>
+
+                <input
+                    type="number"
+                    id="modositottAr-${index}"
+                    value="${t.ar}"
+                    min="0"
+                >
+
+
+                <label>
+                    Elérhetőség
+                </label>
+
+                <select
+                    id="modositottAllapot-${index}"
+                >
+
+                    <option
+                        value="Elérhető"
+                        ${t.allapot === "Elérhető" ? "selected" : ""}
+                    >
+                        Elérhető
+                    </option>
+
+
+                    <option
+                        value="Kifogyott"
+                        ${t.allapot === "Kifogyott" ? "selected" : ""}
+                    >
+                        Kifogyott
+                    </option>
+
+                </select>
+
+
+                <div class="gombok">
+
+                    <button
+                        class="mentes-gomb"
+                        onclick="modositasMentese(${index})"
+                    >
+                        💾 Mentés
+                    </button>
+
+
+                    <button
+                        class="megse-gomb"
+                        onclick="szerkesztesBezarsa(${index})"
+                    >
+                        Mégse
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        `;
+
+    });
 
 }
 
+
+
+/* ==========================================
+   SZERKESZTÉS MEGNYITÁSA
+========================================== */
+
+function szerkeszt(index){
+
+    const szerkeszto =
+        document.getElementById(
+            "szerkeszto-" + index
+        );
+
+
+    szerkeszto.classList.add("aktiv");
+
+}
+
+
+
+/* ==========================================
+   SZERKESZTÉS BEZÁRÁSA
+========================================== */
+
+function szerkesztesBezarsa(index){
+
+    const szerkeszto =
+        document.getElementById(
+            "szerkeszto-" + index
+        );
+
+
+    szerkeszto.classList.remove("aktiv");
+
+}
+
+
+
+/* ==========================================
+   MÓDOSÍTÁS MENTÉSE
+========================================== */
+
+function modositasMentese(index){
+
+    const ujAr =
+        document.getElementById(
+            "modositottAr-" + index
+        ).value.trim();
+
+
+    const ujAllapot =
+        document.getElementById(
+            "modositottAllapot-" + index
+        ).value;
+
+
+    /* Ár ellenőrzés */
+
+    if(!ujAr){
+
+        alert("Adj meg egy árat!");
+
+        return;
+    }
+
+
+    if(Number(ujAr) < 0){
+
+        alert("Az ár nem lehet negatív!");
+
+        return;
+    }
+
+
+    /* Csak ez a két adat változik */
+
+    termekek[index].ar =
+        ujAr;
+
+    termekek[index].allapot =
+        ujAllapot;
+
+
+    /* Mentés */
+
+    localStorage.setItem(
+        "termekek",
+        JSON.stringify(termekek)
+    );
+
+
+    mutat();
+
+
+    alert(
+        "A módosítás sikeresen elmentve!"
+    );
+
+}
+
+
+
+/* ==========================================
+   TERMÉK TÖRLÉSE
+========================================== */
 
 function torol(index){
 
-termekek.splice(index,1);
+    const termek =
+        termekek[index];
 
-localStorage.setItem(
-"termekek",
-JSON.stringify(termekek)
-);
 
-mutat();
+    const biztos =
+        confirm(
+            `Biztosan törölni szeretnéd ezt a terméket?\n\n${termek.nev}`
+        );
+
+
+    if(!biztos){
+
+        return;
+    }
+
+
+    termekek.splice(
+        index,
+        1
+    );
+
+
+    localStorage.setItem(
+        "termekek",
+        JSON.stringify(termekek)
+    );
+
+
+    mutat();
 
 }
 
+
+
+/* ==========================================
+   INDÍTÁS
+========================================== */
 
 mutat();
 
