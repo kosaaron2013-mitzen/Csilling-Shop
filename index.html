@@ -865,19 +865,45 @@ function megnyitKedvencek(){
     flex-wrap: wrap;
 }
 
-.cs-payment-methods span {
+.cs-payment-methods {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
 
+.cs-payment-methods .payment-logo {
     background: white;
 
     color: #172828;
 
-    border-radius: 7px;
+    border-radius: 8px;
 
-    padding: 7px 11px;
+    width: 72px;
+    height: 42px;
 
-    font-size: 11px;
+    padding: 6px;
 
-    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 28px;
+
+    box-shadow:
+        0 3px 10px rgba(0,0,0,0.15);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.cs-payment-methods .payment-logo:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 7px 15px rgba(32,178,170,0.25);
 }
 
 
@@ -1420,25 +1446,27 @@ function megnyitKedvencek(){
 
             <!-- FIZETÉS -->
 
-            <div class="cs-payment">
+            < <div class="cs-payment-methods">
 
-                <div class="cs-payment-title">
-                    Fizetési lehetőségek
-                </div>
+        <span class="payment-logo">
+            <i class="fa-brands fa-google-pay"></i>
+        </span>
 
-                <div class="cs-payment-methods">
+        <span class="payment-logo">
+            <i class="fa-brands fa-apple-pay"></i>
+        </span>
 
-                    <span>G Pay</span>
+        <span class="payment-logo">
+            <i class="fa-brands fa-cc-mastercard"></i>
+        </span>
 
-                    <span> Pay</span>
+        <span class="payment-logo">
+            <i class="fa-brands fa-cc-visa"></i>
+        </span>
 
-                    <span>● Mastercard</span>
+    </div>
 
-                    <span>VISA</span>
-
-                </div>
-
-            </div>
+</div>
 
 
         </div>
