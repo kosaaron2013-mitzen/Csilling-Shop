@@ -1,1 +1,676 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>Profilom – CsillingShop</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #f7f7f7;
+            color: #111;
+        }
+
+        /* ===== FELSŐ TÜRKIZ CSÍK ===== */
+
+        .top-line {
+            height: 5px;
+            width: 100%;
+            background: #20b2aa;
+        }
+
+        /* ===== FEJLÉC ===== */
+
+        header {
+            background: #071414;
+            padding: 20px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            text-decoration: none;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #20b2aa;
+        }
+
+        .home-button {
+            color: white;
+            text-decoration: none;
+
+            padding: 10px 16px;
+
+            border: 1px solid #20b2aa;
+            border-radius: 9px;
+
+            transition: 0.2s;
+        }
+
+        .home-button:hover {
+            background: #20b2aa;
+        }
+
+        /* ===== PROFIL ===== */
+
+        .profile-wrapper {
+            min-height: calc(100vh - 170px);
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 50px 20px;
+        }
+
+        .profile-box {
+            width: 100%;
+            max-width: 600px;
+
+            background: white;
+
+            border-radius: 20px;
+
+            padding: 40px;
+
+            box-shadow:
+                0 12px 40px rgba(0, 0, 0, 0.10);
+
+            border: 1px solid #e5e5e5;
+        }
+
+        /* ===== PROFIL FEJLÉC ===== */
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .profile-icon {
+            width: 90px;
+            height: 90px;
+
+            margin: 0 auto 18px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #20b2aa;
+
+            color: white;
+
+            font-size: 42px;
+
+            box-shadow:
+                0 8px 20px rgba(32, 178, 170, 0.25);
+        }
+
+        .profile-header h1 {
+            margin: 0 0 8px;
+
+            font-size: 30px;
+
+            color: #071414;
+        }
+
+        .profile-header p {
+            margin: 0;
+
+            color: #777;
+        }
+
+        /* ===== ADATOK ===== */
+
+        .profile-data {
+            display: grid;
+
+            gap: 15px;
+
+            margin-bottom: 30px;
+        }
+
+        .data-row {
+            background: #f5f9f9;
+
+            border: 1px solid #e1eeee;
+
+            border-radius: 12px;
+
+            padding: 17px 18px;
+        }
+
+        .data-label {
+            color: #718080;
+
+            font-size: 13px;
+
+            margin-bottom: 6px;
+        }
+
+        .data-value {
+            color: #102020;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            word-break: break-word;
+        }
+
+        /* ===== GOMBOK ===== */
+
+        .profile-actions {
+            display: flex;
+
+            gap: 12px;
+
+            flex-direction: column;
+        }
+
+        .action-button {
+            width: 100%;
+
+            padding: 14px;
+
+            border-radius: 10px;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .logout-button {
+            border: none;
+
+            background: #20b2aa;
+
+            color: white;
+        }
+
+        .logout-button:hover {
+            background: #179a94;
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 7px 18px rgba(32, 178, 170, 0.25);
+        }
+
+        .shop-button {
+            border: 1px solid #20b2aa;
+
+            background: white;
+
+            color: #15958f;
+
+            text-decoration: none;
+
+            text-align: center;
+        }
+
+        .shop-button:hover {
+            background: #20b2aa;
+
+            color: white;
+
+            transform: translateY(-2px);
+        }
+
+        /* ===== ÜZENET ===== */
+
+        #message {
+            display: none;
+
+            margin-bottom: 20px;
+
+            padding: 13px 15px;
+
+            border-radius: 10px;
+
+            text-align: center;
+
+            font-size: 14px;
+        }
+
+        #message.error {
+            display: block;
+
+            background: #ffe8e8;
+
+            color: #b42323;
+
+            border: 1px solid #ffcaca;
+        }
+
+        #message.success {
+            display: block;
+
+            background: #e5faf8;
+
+            color: #087a75;
+
+            border: 1px solid #b9ebe7;
+        }
+
+        /* ===== BETÖLTÉS ===== */
+
+        .loading {
+            text-align: center;
+
+            color: #777;
+
+            padding: 30px;
+        }
+
+        /* ===== MOBIL ===== */
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 17px 18px;
+            }
+
+            .logo {
+                font-size: 24px;
+            }
+
+            .home-button {
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+
+            .profile-wrapper {
+                padding: 30px 15px;
+            }
+
+            .profile-box {
+                padding: 28px 20px;
+            }
+
+            .profile-header h1 {
+                font-size: 26px;
+            }
+
+            .profile-icon {
+                width: 75px;
+                height: 75px;
+
+                font-size: 34px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top-line"></div>
+
+
+    <!-- ===== FEJLÉC ===== -->
+
+    <header>
+
+        <a href="index.html" class="logo">
+            ✨ Csilling<span>Shop</span>
+        </a>
+
+        <a href="index.html" class="home-button">
+            🏠 Webshop
+        </a>
+
+    </header>
+
+
+    <!-- ===== PROFIL ===== -->
+
+    <main class="profile-wrapper">
+
+        <div class="profile-box">
+
+            <div id="loading" class="loading">
+                Profil betöltése...
+            </div>
+
+
+            <div id="profileContent" style="display: none;">
+
+                <div class="profile-header">
+
+                    <div class="profile-icon">
+                        👤
+                    </div>
+
+                    <h1>
+                        Profilom
+                    </h1>
+
+                    <p id="welcomeText">
+                        Üdvözlünk!
+                    </p>
+
+                </div>
+
+
+                <div id="message"></div>
+
+
+                <!-- ADATOK -->
+
+                <div class="profile-data">
+
+                    <div class="data-row">
+
+                        <div class="data-label">
+                            Név
+                        </div>
+
+                        <div
+                            class="data-value"
+                            id="profileName"
+                        >
+                            -
+                        </div>
+
+                    </div>
+
+
+                    <div class="data-row">
+
+                        <div class="data-label">
+                            E-mail cím
+                        </div>
+
+                        <div
+                            class="data-value"
+                            id="profileEmail"
+                        >
+                            -
+                        </div>
+
+                    </div>
+
+
+                    <div class="data-row">
+
+                        <div class="data-label">
+                            Regisztráció dátuma
+                        </div>
+
+                        <div
+                            class="data-value"
+                            id="profileDate"
+                        >
+                            -
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- GOMBOK -->
+
+                <div class="profile-actions">
+
+                    <button
+                        class="action-button logout-button"
+                        id="logoutButton"
+                    >
+                        🚪 Kijelentkezés
+                    </button>
+
+
+                    <a
+                        href="index.html"
+                        class="action-button shop-button"
+                    >
+                        🛒 Vissza a webshopba
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- ===== SUPABASE ===== -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+    <script>
+
+        /* ==========================================
+           SUPABASE
+        ========================================== */
+
+        const SUPABASE_URL =
+            "https://sgzvnszxgfscqammnfpy.supabase.co";
+
+        const SUPABASE_KEY =
+            "sb_publishable_1XKBoPFGeMsHbYM_9PAO5A_KtI5TeKm";
+
+
+        const { createClient } = supabase;
+
+        const supabaseClient =
+            createClient(
+                SUPABASE_URL,
+                SUPABASE_KEY
+            );
+
+
+        /* ==========================================
+           ELEMEK
+        ========================================== */
+
+        const loading =
+            document.getElementById("loading");
+
+        const profileContent =
+            document.getElementById("profileContent");
+
+        const profileName =
+            document.getElementById("profileName");
+
+        const profileEmail =
+            document.getElementById("profileEmail");
+
+        const profileDate =
+            document.getElementById("profileDate");
+
+        const welcomeText =
+            document.getElementById("welcomeText");
+
+        const logoutButton =
+            document.getElementById("logoutButton");
+
+
+        /* ==========================================
+           PROFIL BETÖLTÉSE
+        ========================================== */
+
+        async function loadProfile() {
+
+            try {
+
+                const {
+                    data,
+                    error
+                } =
+                    await supabaseClient.auth.getUser();
+
+
+                /* Hiba */
+
+                if (error) {
+
+                    console.error(error);
+
+                    window.location.href =
+                        "login.html";
+
+                    return;
+                }
+
+
+                const user = data.user;
+
+
+                /* Nincs bejelentkezve */
+
+                if (!user) {
+
+                    window.location.href =
+                        "login.html";
+
+                    return;
+                }
+
+
+                /* NÉV */
+
+                const name =
+                    user.user_metadata?.full_name ||
+                    "Felhasználó";
+
+
+                profileName.textContent =
+                    name;
+
+
+                /* E-MAIL */
+
+                profileEmail.textContent =
+                    user.email || "-";
+
+
+                /* REGISZTRÁCIÓ DÁTUMA */
+
+                if (user.created_at) {
+
+                    const date =
+                        new Date(user.created_at);
+
+
+                    profileDate.textContent =
+                        date.toLocaleDateString(
+                            "hu-HU",
+                            {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric"
+                            }
+                        );
+
+                } else {
+
+                    profileDate.textContent =
+                        "-";
+
+                }
+
+
+                /* ÜDVÖZLŐ SZÖVEG */
+
+                welcomeText.textContent =
+                    "Szia, " + name + "!";
+
+
+                /* BETÖLTÉS ELTÜNTETÉSE */
+
+                loading.style.display =
+                    "none";
+
+                profileContent.style.display =
+                    "block";
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                window.location.href =
+                    "login.html";
+
+            }
+
+        }
+
+
+        /* ==========================================
+           KIJELENTKEZÉS
+        ========================================== */
+
+        logoutButton.addEventListener(
+            "click",
+            async function() {
+
+                logoutButton.disabled =
+                    true;
+
+                logoutButton.textContent =
+                    "Kijelentkezés...";
+
+
+                const {
+                    error
+                } =
+                    await supabaseClient.auth.signOut();
+
+
+                if (error) {
+
+                    console.error(error);
+
+                    logoutButton.disabled =
+                        false;
+
+                    logoutButton.textContent =
+                        "🚪 Kijelentkezés";
+
+                    return;
+                }
+
+
+                window.location.href =
+                    "index.html";
+
+            }
+        );
+
+
+        /* ==========================================
+           INDÍTÁS
+        ========================================== */
+
+        loadProfile();
+
+    </script>
+
+</body>
+</html>
