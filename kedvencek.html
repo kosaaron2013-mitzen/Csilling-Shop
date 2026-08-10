@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CsillingShop - Kedvencek</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+
+    min-height: 100vh;
+
+    padding: 25px 15px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #073b4c,
+            #006f70,
+            #00a6a6
+        );
+
+    color: #123;
+}
+
+/* FŐ KONTÉNER */
+
+.container {
+    max-width: 900px;
+    margin: auto;
+}
+
+/* FEJLÉC */
+
+.header {
+    text-align: center;
+    color: white;
+    margin-bottom: 25px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 34px;
+}
+
+.header p {
+    margin-top: 8px;
+    opacity: 0.9;
+}
+
+/* TARTALOM */
+
+.box {
+    background: rgba(255,255,255,0.97);
+
+    padding: 25px;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,0.25);
+}
+
+/* KEDVENCEK */
+
+#kedvencek {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(230px, 1fr)
+        );
+
+    gap: 18px;
+}
+
+/* TERMÉKKÁRTYA */
+
+.product {
+    background:
+        linear-gradient(
+            135deg,
+            #e4fbfb,
+            #c9f1f1
+        );
+
+    border: 1px solid #9cdddd;
+
+    border-radius: 15px;
+
+    padding: 18px;
+
+    box-shadow:
+        0 5px 15px
+        rgba(0,100,100,0.12);
+
+    transition: 0.2s;
+}
+
+.product:hover {
+    transform: translateY(-4px);
+
+    box-shadow:
+        0 9px 22px
+        rgba(0,100,100,0.20);
+}
+
+/* KÉP */
+
+.product img {
+    width: 100%;
+    height: 180px;
+
+    object-fit: contain;
+
+    background: white;
+
+    border-radius: 12px;
+
+    margin-bottom: 12px;
+}
+
+/* NÉV */
+
+.product h3 {
+    color: #006f70;
+
+    margin:
+        5px 0 8px;
+
+    font-size: 19px;
+}
+
+/* ÁR */
+
+.price {
+    color: #008f91;
+
+    font-size: 21px;
+
+    font-weight: bold;
+
+    margin-bottom: 13px;
+}
+
+/* GOMBOK */
+
+.buttons {
+    display: flex;
+
+    gap: 8px;
+}
+
+button {
+    border: none;
+
+    border-radius: 9px;
+
+    padding: 11px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    transition: 0.2s;
+}
+
+.cart-button {
+    flex: 1;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #00c6c6,
+            #008f91
+        );
+}
+
+.cart-button:hover {
+    transform: translateY(-2px);
+}
+
+.delete-button {
+    background: #e74c3c;
+
+    color: white;
+
+    width: 45px;
+}
+
+.delete-button:hover {
+    background: #c0392b;
+}
+
+/* ÜRES */
+
+.empty {
+    text-align: center;
+
+    padding: 50px 20px;
+
+    color: #557;
+
+    grid-column: 1 / -1;
+}
+
+.empty-icon {
+    font-size: 60px;
+
+    margin-bottom: 10px;
+}
+
+.empty h2 {
+    color: #006f70;
+}
+
+/* ALSÓ GOMBOK */
+
+.bottom {
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 25px;
+}
+
+.bottom button {
+    flex: 1;
+
+    background:
+        linear-gradient(
+            135deg,
+            #007f83,
+            #005b60
+        );
+
+    color: white;
+}
+
+/* TÖRLÉS GOMB */
+
+.clear-button {
+    background:
+        #e74c3c !important;
+}
+
+.clear-button:hover {
+    background:
+        #c0392b !important;
+}
+
+/* MOBIL */
+
+@media(max-width:600px) {
+
+    body {
+        padding: 10px;
+    }
+
+    .box {
+        padding: 15px;
+        border-radius: 16px;
+    }
+
+    .header h1 {
+        font-size: 27px;
+    }
+
+    #kedvencek {
+        grid-template-columns: 1fr;
+    }
+
+    .product img {
+        height: 200px;
+    }
+
+    .bottom {
+        flex-direction: column;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <div class="header">
+
+        <h1>❤️ Kedvenceim</h1>
+
+        <p>A kedvenc termékeid egy helyen</p>
+
+    </div>
+
+
+    <div class="box">
+
+
+        <div id="kedvencek"></div>
+
+
+        <div class="bottom">
+
+            <button
+                onclick="vissza()">
+
+                🏠 Vissza a webshopba
+
+            </button>
+
+
+            <button
+                class="clear-button"
+                onclick="osszesTorles()">
+
+                🗑️ Összes törlése
+
+            </button>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+/* =====================================
+   KEDVENCEK BETÖLTÉSE
+===================================== */
+
+let kedvencek =
+    JSON.parse(
+        localStorage.getItem("kedvencek")
+    ) || [];
+
+
+/* =====================================
+   MEGJELENÍTÉS
+===================================== */
+
+function mutat() {
+
+    let lista =
+        document.getElementById(
+            "kedvencek"
+        );
+
+    lista.innerHTML = "";
+
+
+    /* ÜRES */
+
+    if (kedvencek.length === 0) {
+
+        lista.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    ❤️
+                </div>
+
+                <h2>
+                    Még nincs kedvenced
+                </h2>
+
+                <p>
+                    Jelölj meg termékeket kedvencként,
+                    és itt megtalálod őket.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    /* TERMÉKEK */
+
+    kedvencek.forEach(
+        function(termek, index) {
+
+            let kep =
+                termek.kep ||
+                termek.kepUrl ||
+                "";
+
+
+            lista.innerHTML += `
+
+                <div class="product">
+
+                    ${
+                        kep
+                        ?
+                        `<img
+                            src="${kep}"
+                            alt="${termek.nev || "Termék"}"
+                        >`
+                        :
+                        ""
+                    }
+
+                    <h3>
+                        ${termek.nev || "Termék"}
+                    </h3>
+
+                    <div class="price">
+                        ${termek.ar || 0} Ft
+                    </div>
+
+                    <div class="buttons">
+
+                        <button
+                            class="cart-button"
+                            onclick="kosarba(${index})">
+
+                            🛒 Kosárba
+
+                        </button>
+
+                        <button
+                            class="delete-button"
+                            onclick="torol(${index})">
+
+                            ❌
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+}
+
+
+/* =====================================
+   KOSÁRBA RAKÁS
+===================================== */
+
+function kosarba(index) {
+
+    let termek =
+        kedvencek[index];
+
+
+    let kosar =
+        JSON.parse(
+            localStorage.getItem("kosar")
+        ) || [];
+
+
+    kosar.push(termek);
+
+
+    localStorage.setItem(
+        "kosar",
+        JSON.stringify(kosar)
+    );
+
+
+    alert(
+        "🛒 " +
+        termek.nev +
+        " bekerült a kosárba!"
+    );
+
+}
+
+
+/* =====================================
+   KEDVENC TÖRLÉSE
+===================================== */
+
+function torol(index) {
+
+    kedvencek.splice(
+        index,
+        1
+    );
+
+
+    localStorage.setItem(
+        "kedvencek",
+        JSON.stringify(kedvencek)
+    );
+
+
+    mutat();
+
+}
+
+
+/* =====================================
+   ÖSSZES TÖRLÉSE
+===================================== */
+
+function osszesTorles() {
+
+    if (
+        kedvencek.length === 0
+    ) {
+
+        return;
+
+    }
+
+
+    let biztos =
+        confirm(
+            "Biztosan törlöd az összes kedvencedet?"
+        );
+
+
+    if (!biztos) {
+
+        return;
+
+    }
+
+
+    kedvencek = [];
+
+
+    localStorage.setItem(
+        "kedvencek",
+        JSON.stringify(kedvencek)
+    );
+
+
+    mutat();
+
+}
+
+
+/* =====================================
+   VISSZA
+===================================== */
+
+function vissza() {
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+/* =====================================
+   INDÍTÁS
+===================================== */
+
+mutat();
+
+</script>
+
+
+</body>
+
+</html>
