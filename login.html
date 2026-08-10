@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Belépés – CsillingShop</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #f7f7f7;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* FELSŐ VONAL */
+        .top-line {
+            height: 5px;
+            background: #28c4c0;
+            width: 100%;
+        }
+
+        /* FEJLÉC */
+        header {
+            background: #071414;
+            padding: 22px 30px;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #28c4c0;
+        }
+
+        /* LOGIN TARTALOM */
+        .login-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px 20px;
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 430px;
+            background: #ffffff;
+            padding: 38px;
+            border-radius: 18px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.10);
+            border: 1px solid #e5e5e5;
+        }
+
+        .login-box h1 {
+            margin: 0 0 10px;
+            text-align: center;
+            font-size: 30px;
+            color: #071414;
+        }
+
+        .login-box .subtitle {
+            text-align: center;
+            color: #777;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+            color: #222;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #d8d8d8;
+            border-radius: 10px;
+            font-size: 16px;
+            outline: none;
+            margin-bottom: 18px;
+            transition: 0.2s;
+        }
+
+        input:focus {
+            border-color: #28c4c0;
+            box-shadow: 0 0 0 3px rgba(40, 196, 192, 0.12);
+        }
+
+        /* BELÉPÉS GOMB */
+        .login-button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: #28b9b5;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .login-button:hover {
+            background: #1da6a2;
+            transform: translateY(-1px);
+        }
+
+        .login-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ÜZENET */
+        #message {
+            display: none;
+            margin-top: 18px;
+            padding: 12px;
+            border-radius: 9px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        #message.error {
+            display: block;
+            background: #ffe8e8;
+            color: #b42323;
+            border: 1px solid #ffcaca;
+        }
+
+        #message.success {
+            display: block;
+            background: #e5faf8;
+            color: #087a75;
+            border: 1px solid #b9ebe7;
+        }
+
+        /* REGISZTRÁCIÓ */
+        .register-text {
+            text-align: center;
+            margin-top: 25px;
+            color: #777;
+        }
+
+        .register-text a {
+            color: #19aaa6;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .register-text a:hover {
+            text-decoration: underline;
+        }
+
+        /* VISSZA */
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 18px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            color: #19aaa6;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #071414;
+            color: #8da2a2;
+            text-align: center;
+            padding: 18px;
+            font-size: 14px;
+            border-top: 4px solid #28c4c0;
+        }
+
+        /* MOBIL */
+        @media (max-width: 500px) {
+
+            header {
+                padding: 18px;
+            }
+
+            .logo {
+                font-size: 24px;
+            }
+
+            .login-wrapper {
+                padding: 30px 15px;
+            }
+
+            .login-box {
+                padding: 28px 20px;
+            }
+
+            .login-box h1 {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top-line"></div>
+
+    <header>
+        <a href="index.html" class="logo">
+            ✨ Csilling<span>Shop</span>
+        </a>
+    </header>
+
+
+    <main class="login-wrapper">
+
+        <div class="login-box">
+
+            <h1>Belépés</h1>
+
+            <p class="subtitle">
+                Jelentkezz be a CsillingShop fiókodba!
+            </p>
+
+
+            <form id="loginForm">
+
+                <label for="email">
+                    E-mail cím
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="pelda@email.com"
+                    required
+                    autocomplete="email"
+                >
+
+
+                <label for="password">
+                    Jelszó
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Jelszavad"
+                    required
+                    autocomplete="current-password"
+                >
+
+
+                <button
+                    type="submit"
+                    class="login-button"
+                    id="loginButton"
+                >
+                    Belépés
+                </button>
+
+            </form>
+
+
+            <div id="message"></div>
+
+
+            <div class="register-text">
+                Még nincs fiókod?
+                <a href="register.html">Regisztráció</a>
+            </div>
+
+            <a href="index.html" class="back-link">
+                ← Vissza a főoldalra
+            </a>
+
+        </div>
+
+    </main>
+
+
+    <footer>
+        © 2026 CsillingShop · Minden jog fenntartva
+    </footer>
+
+
+    <!-- SUPABASE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+
+        // ==========================================
+        // SUPABASE BEÁLLÍTÁSOK
+        // ==========================================
+
+        const SUPABASE_URL =
+            "https://sgzvnszxgfscqammnfpy.supabase.co";
+
+        const SUPABASE_KEY =
+            "sb_publishable_1XKBoPFGeMsHbYM_9PAO5A_KtI5TeKm";
+
+
+        const { createClient } = supabase;
+
+        const supabaseClient = createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
+
+        // ==========================================
+        // ELEMEK
+        // ==========================================
+
+        const loginForm =
+            document.getElementById("loginForm");
+
+        const loginButton =
+            document.getElementById("loginButton");
+
+        const message =
+            document.getElementById("message");
+
+
+        // ==========================================
+        // ÜZENET
+        // ==========================================
+
+        function showMessage(text, type) {
+
+            message.textContent = text;
+
+            message.className = type;
+
+        }
+
+
+        // ==========================================
+        // BELÉPÉS
+        // ==========================================
+
+        loginForm.addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+
+            const email =
+                document.getElementById("email").value.trim();
+
+            const password =
+                document.getElementById("password").value;
+
+
+            loginButton.disabled = true;
+
+            loginButton.textContent = "Belépés...";
+
+            message.className = "";
+
+            message.textContent = "";
+
+
+            try {
+
+                const { data, error } =
+                    await supabaseClient.auth.signInWithPassword({
+
+                        email: email,
+
+                        password: password
+
+                    });
+
+
+                if (error) {
+
+                    console.error(error);
+
+                    showMessage(
+                        "Hibás e-mail cím vagy jelszó.",
+                        "error"
+                    );
+
+                    loginButton.disabled = false;
+
+                    loginButton.textContent = "Belépés";
+
+                    return;
+                }
+
+
+                if (data.user) {
+
+                    showMessage(
+                        "Sikeres belépés! Átirányítás...",
+                        "success"
+                    );
+
+
+                    setTimeout(function() {
+
+                        window.location.href = "index.html";
+
+                    }, 800);
+
+                }
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                showMessage(
+                    "Hiba történt a belépés közben.",
+                    "error"
+                );
+
+                loginButton.disabled = false;
+
+                loginButton.textContent = "Belépés";
+
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>
