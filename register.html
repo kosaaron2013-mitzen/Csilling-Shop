@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Regisztráció - CsillingShop</title>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #070e0e;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 30px 15px;
+        }
+
+        .register-container {
+            width: 100%;
+            max-width: 460px;
+        }
+
+        .register-box {
+            background: #101c1c;
+            border: 1px solid rgba(32, 178, 170, 0.35);
+            border-radius: 20px;
+            padding: 38px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .logo .white {
+            color: white;
+        }
+
+        .logo .turquoise {
+            color: #20b2aa;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #aebebe;
+            margin-bottom: 30px;
+            font-size: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #e8eeee;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 15px;
+
+            background: #071111;
+            color: white;
+
+            border: 1px solid #294444;
+            border-radius: 10px;
+
+            outline: none;
+            font-size: 15px;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        input:focus {
+            border-color: #20b2aa;
+            box-shadow: 0 0 0 3px rgba(32, 178, 170, 0.12);
+        }
+
+        input::placeholder {
+            color: #718080;
+        }
+
+        .register-button {
+            width: 100%;
+            border: none;
+            border-radius: 10px;
+
+            padding: 14px;
+
+            background: #20b2aa;
+            color: white;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition:
+                transform 0.2s ease,
+                background 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .register-button:hover {
+            background: #27c5bc;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(32, 178, 170, 0.25);
+        }
+
+        .register-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .message {
+            display: none;
+            margin-top: 18px;
+            padding: 13px 15px;
+
+            border-radius: 10px;
+
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .message.success {
+            display: block;
+            background: rgba(32, 178, 170, 0.12);
+            border: 1px solid rgba(32, 178, 170, 0.4);
+            color: #6ee7df;
+        }
+
+        .message.error {
+            display: block;
+            background: rgba(220, 60, 60, 0.12);
+            border: 1px solid rgba(220, 60, 60, 0.4);
+            color: #ff9b9b;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 25px;
+            color: #aebebe;
+            font-size: 14px;
+        }
+
+        .login-link a {
+            color: #20b2aa;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+
+            color: #879999;
+            text-decoration: none;
+            font-size: 14px;
+
+            transition: color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: #20b2aa;
+        }
+
+        @media (max-width: 500px) {
+            .register-box {
+                padding: 28px 22px;
+            }
+
+            .logo {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="register-container">
+
+    <div class="register-box">
+
+        <div class="logo">
+            <span>✨ </span>
+            <span class="white">Csilling</span><span class="turquoise">Shop</span>
+        </div>
+
+        <div class="subtitle">
+            Hozd létre a saját CsillingShop fiókodat!
+        </div>
+
+        <form id="registerForm">
+
+            <div class="form-group">
+                <label for="name">Név</label>
+
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Pl. Kovács Áron"
+                    autocomplete="name"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="email">E-mail cím</label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="pelda@email.hu"
+                    autocomplete="email"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Jelszó</label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Legalább 6 karakter"
+                    autocomplete="new-password"
+                    minlength="6"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password2">Jelszó újra</label>
+
+                <input
+                    type="password"
+                    id="password2"
+                    placeholder="Írd be újra a jelszavad"
+                    autocomplete="new-password"
+                    minlength="6"
+                    required
+                >
+            </div>
+
+            <button
+                type="submit"
+                class="register-button"
+                id="registerButton"
+            >
+                Regisztráció
+            </button>
+
+        </form>
+
+        <div id="message" class="message"></div>
+
+        <div class="login-link">
+            Már van fiókod?
+            <a href="login.html">Belépés</a>
+        </div>
+
+        <a href="index.html" class="back-link">
+            ← Vissza a CsillingShopba
+        </a>
+
+    </div>
+
+</div>
+
+
+<script>
+    /* ==========================================
+       SUPABASE BEÁLLÍTÁS
+       ========================================== */
+
+    const SUPABASE_URL =
+        "https://sgzvnszxgfscqammnfpy.supabase.co";
+
+    const SUPABASE_KEY =
+        "sb_publishable_1XKBoPFGeMsHbYM_9PAO5A_KtI5TeKm";
+
+
+    const { createClient } =
+        supabase;
+
+
+    const supabaseClient =
+        createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
+
+    /* ==========================================
+       ELEMEK
+       ========================================== */
+
+    const registerForm =
+        document.getElementById("registerForm");
+
+    const registerButton =
+        document.getElementById("registerButton");
+
+    const message =
+        document.getElementById("message");
+
+
+    /* ==========================================
+       ÜZENET
+       ========================================== */
+
+    function showMessage(text, type) {
+
+        message.textContent = text;
+
+        message.className =
+            "message " + type;
+    }
+
+
+    /* ==========================================
+       REGISZTRÁCIÓ
+       ========================================== */
+
+    registerForm.addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+
+            const name =
+                document.getElementById("name").value.trim();
+
+            const email =
+                document.getElementById("email").value.trim();
+
+            const password =
+                document.getElementById("password").value;
+
+            const password2 =
+                document.getElementById("password2").value;
+
+
+            /* Név ellenőrzése */
+
+            if (name.length < 2) {
+
+                showMessage(
+                    "Kérlek, add meg a neved!",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            /* Jelszó ellenőrzése */
+
+            if (password.length < 6) {
+
+                showMessage(
+                    "A jelszónak legalább 6 karakter hosszúnak kell lennie!",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            /* Jelszavak egyezése */
+
+            if (password !== password2) {
+
+                showMessage(
+                    "A két jelszó nem egyezik!",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            /* Gomb letiltása */
+
+            registerButton.disabled = true;
+
+            registerButton.textContent =
+                "Regisztráció folyamatban...";
+
+
+            try {
+
+                /*
+                 * A login.html ugyanabban a mappában lesz,
+                 * ezért automatikusan működik GitHub Pages-en is.
+                 */
+
+                const loginUrl =
+                    new URL(
+                        "login.html",
+                        window.location.href
+                    ).href;
+
+
+                const { data, error } =
+                    await supabaseClient.auth.signUp({
+
+                        email: email,
+
+                        password: password,
+
+                        options: {
+
+                            data: {
+                                full_name: name
+                            },
+
+                            emailRedirectTo: loginUrl
+                        }
+                    });
+
+
+                /* Hiba */
+
+                if (error) {
+
+                    console.error(error);
+
+                    showMessage(
+                        error.message,
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                /* Sikeres regisztráció */
+
+                if (data.user) {
+
+                    showMessage(
+                        "Sikeres regisztráció! Ellenőrizd az e-mail címedet, majd a megerősítés után be tudsz lépni.",
+                        "success"
+                    );
+
+                    registerForm.reset();
+                }
+
+            } catch (error) {
+
+                console.error(error);
+
+                showMessage(
+                    "Hiba történt a regisztráció során. Próbáld újra!",
+                    "error"
+                );
+
+            } finally {
+
+                registerButton.disabled = false;
+
+                registerButton.textContent =
+                    "Regisztráció";
+            }
+
+        }
+    );
+</script>
+
+</body>
+</html>
