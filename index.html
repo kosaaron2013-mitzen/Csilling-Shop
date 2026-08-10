@@ -370,55 +370,93 @@ function kategoria(kat){
 }
 
 
-function keres(){
+ffunction keres(){
 
-let szoveg = document.getElementById("kereso").value.toLowerCase();
-
-let lista = document.getElementById("termekLista");
-
-lista.innerHTML = "";
-
-
-termekek.forEach((t)=>{
+    let szoveg =
+        document.getElementById("kereso")
+        .value
+        .toLowerCase();
 
 
-if(
-t.nev.toLowerCase().includes(szoveg) ||
-t.kat.toLowerCase().includes(szoveg)
-){
-
-lista.innerHTML += `
-
-<div class="product">
-
-<img src="kepek/${t.kep}">
-
-<h2>${t.nev}</h2>
-
-<p>${t.kat}</p>
-
-<p class="price">
-${t.ar} Ft
-</p>
+    let lista =
+        document.getElementById("termekLista");
 
 
-<button class="buy" onclick='kosarba(${JSON.stringify(t)})'>
-🛒 Kosárba
-</button>
+    lista.innerHTML = "";
 
-</div>
 
-`;
+    termekek.forEach((t, index) => {
+
+        if(
+            t.nev.toLowerCase().includes(szoveg) ||
+            t.kat.toLowerCase().includes(szoveg)
+        ){
+
+            const kifogyott =
+                t.allapot === "Kifogyott";
+
+
+            const kedvenc =
+                kedvencek.some(
+                    k => k.nev === t.nev
+                );
+
+
+            lista.innerHTML += `
+
+            <div class="product ${kifogyott ? "kifogyott" : ""}">
+
+                <img
+                    src="kepek/${t.kep}"
+                    onclick="termekOldal(${index})"
+                    style="cursor:pointer"
+                >
+
+
+                <h2>${t.nev}</h2>
+
+
+                <p>${t.kat}</p>
+
+
+                <p class="price">
+                    ${t.ar} Ft
+                </p>
+
+
+                <p class="${kifogyott ? "allapot-kifogyott" : "allapot-elerheto"}">
+                    ${kifogyott ? "❌ Kifogyott" : "✅ Elérhető"}
+                </p>
+
+
+                <button
+                    class="buy ${kifogyott ? "kifogyott-gomb" : ""}"
+                    ${kifogyott ? "disabled" : ""}
+                    onclick='kosarba(${JSON.stringify(t)})'
+                >
+                    ${kifogyott ? "❌ Kifogyott" : "🛒 Kosárba"}
+                </button>
+
+
+                <button
+                    class="favorite-button ${kedvenc ? "aktiv" : ""}"
+                    onclick="kedvencToggle(${index})"
+                >
+                    ${kedvenc ? "♥ Kedvenc" : "♡ Kedvencekhez"}
+                </button>
+
+            </div>
+
+            `;
+
+        }
+
+    });
+
+
+    frissitKosarSzamlalo();
 
 }
-
-});
-
-
-frissitKosarSzamlalo();
-
-}
-
 betoltTermekek();
 
 
