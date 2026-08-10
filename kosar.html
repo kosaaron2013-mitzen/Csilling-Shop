@@ -283,7 +283,10 @@ function fizetesre() {
     localStorage.setItem("fizetes_nev", nev);
     localStorage.setItem("fizetes_cim", cim);
     localStorage.setItem("fizetes_email", email);
-
+    localStorage.setItem(
+    "fizetes_szallitas",
+    document.getElementById("szallitas").value
+);
     window.location.href = "fizetes.html";
 }
 
