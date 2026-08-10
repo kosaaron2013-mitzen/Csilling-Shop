@@ -889,6 +889,65 @@ betoltTermekek();
     box-shadow: none !important;
 }
 
+/* =========================================
+   CSILLINGSHOP - VONALAK TELJES ELTÜNTETÉSE
+========================================= */
+
+/* ÚJ FOOTER */
+.cs-footer,
+.cs-footer-main,
+.cs-copyright,
+.cs-footer-bottom,
+.cs-footer-bottom-inner {
+    border: 0 !important;
+    border-top: 0 !important;
+    border-bottom: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+}
+
+/* RÉGI FOOTER OSZTÁLYOK */
+.footer,
+.footer-main,
+.footer-bottom,
+.copyright {
+    border: 0 !important;
+    border-top: 0 !important;
+    border-bottom: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+}
+
+/* MINDEN FOOTER ELEM HÁTTERE UGYANAZ */
+.cs-footer,
+.cs-footer-main,
+.cs-copyright,
+.cs-footer-bottom,
+.cs-footer-bottom-inner,
+.footer,
+.footer-main,
+.footer-bottom,
+.copyright {
+    background: #0b1414 !important;
+}
+
+/* NE LEGYEN SEMMILYEN PSEUDO-ELEMES VONAL */
+.cs-footer::after,
+.cs-footer-main::after,
+.cs-copyright::after,
+.cs-footer-bottom::after,
+.cs-footer::before {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* A FELSŐ TÜRKIZ CSÍK MARAD */
+.cs-footer::before {
+    height: 5px !important;
+    background: #20b2aa !important;
+    border: none !important;
+}
+
 </style>
 
 
