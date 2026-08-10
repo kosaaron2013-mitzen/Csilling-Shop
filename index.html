@@ -338,412 +338,424 @@ betoltTermekek();
 
 <style>
 
+<!-- ===== ÚJ CSILLINGSHOP FOOTER ===== -->
+
+<style>
 /* ===== FOOTER ===== */
 
-.footer {
-    background: #55a6a3;
+.cs-footer {
+    margin-top: 90px;
+    background: #101c1c;
     color: white;
-    margin-top: 80px;
     font-family: Arial, sans-serif;
+    overflow: hidden;
 }
 
-.footer-main {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 50px;
-    padding: 55px 6% 0;
-}
-
-/* COPYRIGHT A NAGY TÜRKIZ BLOKK ALJÁN */
-.footer-main .copyright {
-    grid-column: 1 / -1 !important;
-    width: 100% !important;
-    box-sizing: border-box;
-    text-align: center !important;
-    color: white;
-    background: transparent;
-    padding: 35px 10px 20px;
-    margin: 20px 0 0 0;
-    justify-self: stretch;
-    align-self: end;
-}
-
-.footer-column h3 {
-    font-size: 22px;
-    margin: 0 0 28px;
-}
-
-.footer-column a {
+/* FELSŐ DÍSZCSÍK */
+.cs-footer::before {
+    content: "";
     display: block;
-    color: white;
+    height: 5px;
+    background: linear-gradient(90deg, #20b2aa, #55e0d7, #20b2aa);
+}
+
+/* FŐ FOOTER */
+.cs-footer-main {
+    max-width: 1200px;
+    margin: auto;
+    padding: 65px 30px 45px;
+    display: grid;
+    grid-template-columns: 1.2fr 1.2fr 1fr 1.2fr;
+    gap: 45px;
+}
+
+/* OSZLOPOK */
+.cs-footer-column h3 {
+    margin: 0 0 22px;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+    color: #55e0d7;
+}
+
+.cs-footer-column p {
+    margin: 0 0 14px;
+    color: #c9d5d5;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.cs-footer-column a {
+    display: block;
+    width: fit-content;
+    margin-bottom: 13px;
+    color: #dce8e8;
     text-decoration: none;
-    margin-bottom: 20px;
-    font-size: 16px;
+    font-size: 14px;
+    transition: 0.25s;
 }
 
-.footer-column a:hover {
-    text-decoration: underline;
+.cs-footer-column a:hover {
+    color: #55e0d7;
+    transform: translateX(5px);
 }
 
-.footer-column p {
-    font-size: 16px;
-    line-height: 1.6;
-    margin: 0 0 15px;
+/* LOGÓ / BEMUTATKOZÁS */
+.cs-footer-brand {
+    font-size: 27px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: white;
 }
 
-/* Hírlevél gomb */
+.cs-footer-brand span {
+    color: #55e0d7;
+}
 
-.newsletter-button {
-    background: white;
-    color: #222;
+.cs-footer-description {
+    max-width: 260px;
+}
+
+/* HÍRLEVÉL */
+.cs-newsletter {
+    background: #172828;
+    border: 1px solid rgba(85,224,215,0.18);
+    border-radius: 18px;
+    padding: 22px;
+}
+
+.cs-newsletter h3 {
+    margin-top: 0;
+}
+
+.cs-newsletter-button {
+    margin-top: 8px;
+    padding: 12px 20px;
     border: none;
-    padding: 14px 25px;
-    border-radius: 12px;
+    border-radius: 10px;
+    background: #20b2aa;
+    color: white;
     font-weight: bold;
     cursor: pointer;
-    margin-top: 10px;
+    transition: 0.25s;
 }
 
-.newsletter-button:hover {
-    background: #eeeeee;
+.cs-newsletter-button:hover {
+    background: #55e0d7;
+    color: #102020;
+    transform: translateY(-2px);
 }
 
-/* Alsó rész */
+/* ALSÓ SÁV */
+.cs-footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    background: #0b1414;
+    padding: 25px 30px;
+}
 
-.footer-bottom {
-    background: white;
-    color: #222;
-    min-height: 110px;
+.cs-footer-bottom-inner {
+    max-width: 1200px;
+    margin: auto;
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    padding: 15px 5%;
-    box-sizing: border-box;
-}
-
-/* Közösségi ikonok */
-
-.social {
-    display: flex;
-    gap: 28px;
     align-items: center;
+    gap: 25px;
 }
 
-.social a {
-    color: #006b68;
-    text-decoration: none;
-    font-size: 30px;
-    transition: 0.2s;
-}
-
-.social a:hover {
-    transform: scale(1.15);
-    color: #20b2aa;
-}
-
-/* Fizetési módok */
-
-.payment {
-    text-align: center;
-}
-
-.payment-title {
-    font-weight: bold;
-    margin-bottom: 8px;
-}
-
-.payment-methods {
+/* KÖZÖSSÉGI IKONOK */
+.cs-social {
     display: flex;
-    gap: 8px;
-    align-items: center;
+    gap: 12px;
+}
+
+.cs-social a {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
     justify-content: center;
+    align-items: center;
+    color: white;
+    background: #172828;
+    text-decoration: none;
+    font-size: 19px;
+    transition: 0.25s;
+}
+
+.cs-social a:hover {
+    background: #20b2aa;
+    transform: translateY(-4px);
+}
+
+/* FIZETÉSI MÓDOK */
+.cs-payment {
+    text-align: right;
+}
+
+.cs-payment-title {
+    color: #aebebe;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.cs-payment-methods {
+    display: flex;
+    justify-content: flex-end;
+    gap: 7px;
     flex-wrap: wrap;
 }
 
-.payment-methods span {
-    border: 1px solid #bbb;
-    border-radius: 8px;
-    padding: 7px 12px;
+.cs-payment-methods span {
     background: white;
-    font-size: 13px;
+    color: #172828;
+    border-radius: 7px;
+    padding: 7px 10px;
+    font-size: 11px;
     font-weight: bold;
 }
 
-/* Copyright */
-
-.copyright {
+/* COPYRIGHT */
+.cs-copyright {
     text-align: center;
-    color: white;
-    font-size: 15px;
-    padding: 20px 10px 25px;
-    background: #55a6a3;
-    margin: 0;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 20px 15px;
+    color: #839393;
+    font-size: 13px;
 }
 
-/* Admin gomb */
+/* ===== ADMIN GOMB ===== */
 
-.admin-bottom {
+.cs-admin-button {
     display: block;
-    width: 220px;
-    margin: 25px auto 25px;
-    padding: 12px 20px;
+    margin: 25px auto 30px;
+    padding: 12px 22px;
+    border: 1px solid #20b2aa;
+    border-radius: 12px;
+    background: transparent;
+    color: #20b2aa;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.cs-admin-button:hover {
     background: #20b2aa;
     color: white;
-    border: 0;
-    border-radius: 12px;
-    cursor: pointer;
-    font-size: 15px;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(32,178,170,0.25);
 }
-
-.admin-bottom:hover {
-    background: #178f89;
-}
-
-/* Vissza a tetejére */
-
-.top-button {
-    position: fixed;
-    right: 25px;
-    bottom: 25px;
-    width: 60px;
-    height: 60px;
-    border: none;
-    border-radius: 18px;
-    background: #55e0d7;
-    color: #222;
-    font-size: 30px;
-    cursor: pointer;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-    z-index: 100;
-}
-
-.top-button:hover {
-    transform: translateY(-3px);
-}
-
 
 /* ===== MOBIL ===== */
 
-@media(max-width:700px){
+@media(max-width:800px) {
 
-    .footer-main {
+    .cs-footer-main {
         grid-template-columns: 1fr 1fr;
-        gap: 35px 20px;
-        padding: 40px 25px;
+        gap: 35px 25px;
+        padding: 50px 25px 35px;
     }
 
-    .footer-column h3 {
-        font-size: 18px;
-        margin-bottom: 20px;
+    .cs-footer-column a {
+        font-size: 13px;
     }
 
-    .footer-column a,
-    .footer-column p {
-        font-size: 14px;
-        margin-bottom: 14px;
-    }
-
-    .footer-bottom {
+    .cs-footer-bottom-inner {
         flex-direction: column;
-        gap: 25px;
-        padding: 25px 15px;
-    }
-
-    .social a {
-    color: #006b68;
-    text-decoration: none;
-    font-size: 30px;
-    transition: 0.2s;
-}
-    }
-
-    .payment {
-        width: 100%;
-    }
-
-    .top-button {
-        width: 52px;
-        height: 52px;
-        right: 15px;
-        bottom: 15px;
-        font-size: 25px;
-    }
-}
-
-@media(max-width:450px){
-
-    .footer-main {
-        grid-template-columns: 1fr;
         text-align: center;
     }
 
-    .footer-column a {
-        margin-bottom: 12px;
+    .cs-payment {
+        text-align: center;
     }
 
-    .social {
+    .cs-payment-methods {
+        justify-content: center;
+    }
+}
+
+@media(max-width:500px) {
+
+    .cs-footer-main {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 45px 22px 30px;
+    }
+
+    .cs-footer-column a {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .cs-footer-description {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .cs-newsletter {
+        max-width: 330px;
+        margin: auto;
+    }
+
+    .cs-social {
         justify-content: center;
     }
 
+    .cs-footer-bottom {
+        padding: 25px 15px;
+    }
 }
-
 </style>
 
 
-<footer class="footer">
+<footer class="cs-footer">
 
-    <div class="footer-main">
+    <div class="cs-footer-main">
 
-    <!-- VÁSÁRLÓI FIÓK -->
-    <div class="footer-column">
-        <h3>VÁSÁRLÓI FIÓK</h3>
+        <!-- CSILLINGSHOP -->
+        <div class="cs-footer-column">
 
-        <a href="#">Belépés</a>
-        <a href="#">Regisztráció</a>
-        <a href="#">Profilom</a>
-        <a href="kosar.html">Kosár</a>
-        <a href="#">Kedvenceim</a>
+            <div class="cs-footer-brand">
+                ✨ Csilling<span>Shop</span>
+            </div>
+
+            <p class="cs-footer-description">
+                Egyedi rajzok, játékok és tini cuccok egy helyen.
+                Fedezd fel a CsillingShop kínálatát!
+            </p>
+
+        </div>
+
+
+        <!-- VÁSÁRLÓI FIÓK -->
+        <div class="cs-footer-column">
+
+            <h3>VÁSÁRLÓI FIÓK</h3>
+
+            <a href="#">Belépés</a>
+            <a href="#">Regisztráció</a>
+            <a href="#">Profilom</a>
+            <a href="kosar.html">🛒 Kosár</a>
+            <a href="#">Kedvenceim</a>
+
+        </div>
+
+
+        <!-- TUDNIVALÓK -->
+        <div class="cs-footer-column">
+
+            <h3>TUDNIVALÓK</h3>
+
+            <a href="#">ÁSZF</a>
+            <a href="#">Adatkezelési tájékoztató</a>
+            <a href="#">Fizetés</a>
+            <a href="#">Szállítás</a>
+            <a href="#">Elérhetőségek</a>
+            <a href="#">Adatkezelési beállítások</a>
+
+        </div>
+
+
+        <!-- HÍRLEVÉL -->
+        <div class="cs-footer-column">
+
+            <div class="cs-newsletter">
+
+                <h3>📩 HÍRLEVÉL</h3>
+
+                <p>
+                    Iratkozz fel, hogy elsőként értesülj
+                    az új termékekről és akciókról!
+                </p>
+
+                <p>
+                    🎁 Feliratkozás után 5% kupon!
+                </p>
+
+                <button class="cs-newsletter-button">
+                    Feliratkozom ✈
+                </button>
+
+            </div>
+
+        </div>
+
     </div>
 
 
-    <!-- TUDNIVALÓK -->
-    <div class="footer-column">
-        <h3>TUDNIVALÓK</h3>
+    <!-- ALSÓ RÉSZ -->
+    <div class="cs-footer-bottom">
 
-        <a href="#">Általános szerződési feltételek</a>
-        <a href="#">Adatkezelési tájékoztató</a>
-        <a href="#">Fizetés</a>
-        <a href="#">Szállítás</a>
-        <a href="#">Elérhetőségek</a>
-        <a href="#">Adatkezelési beállítások</a>
-    </div>
+        <div class="cs-footer-bottom-inner">
+
+            <!-- KÖZÖSSÉGI OLDALAK -->
+            <div class="cs-social">
+
+                <a
+                    href="https://www.facebook.com/profile.php?id=61592823221674"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Facebook"
+                >
+                    <i class="fa-brands fa-facebook-f"></i>
+                </a>
+
+                <a
+                    href="#"
+                    title="Instagram"
+                >
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+
+                <a
+                    href="#"
+                    title="TikTok"
+                >
+                    <i class="fa-brands fa-tiktok"></i>
+                </a>
+
+            </div>
 
 
-    <!-- ÜGYFÉLSZOLGÁLAT -->
-    <div class="footer-column">
-        <h3>ÜGYFÉLSZOLGÁLAT</h3>
+            <!-- FIZETÉSI MÓDOK -->
+            <div class="cs-payment">
 
-        <p>info@csillingshop.hu</p>
+                <div class="cs-payment-title">
+                    Fizetési lehetőségek
+                </div>
 
-        <a href="mailto:info@csillingshop.hu">
-            Írj nekünk üzenetet!
-        </a>
-    </div>
+                <div class="cs-payment-methods">
 
+                    <span>G Pay</span>
+                    <span> Pay</span>
+                    <span>● Mastercard</span>
+                    <span>VISA</span>
 
-    <!-- HÍRLEVÉL -->
-    <div class="footer-column">
-        <h3>HÍRLEVÉL</h3>
+                </div>
 
-        <p>
-            Iratkozz fel hírlevelünkre,
-            hogy elsőként értesülhess
-            újdonságainkról!
-        </p>
+            </div>
 
-        <p>
-            Feliratkozásod egy 5%-os
-            kuponnal jutalmazzuk.
-        </p>
+        </div>
 
-        <button class="newsletter-button">
-            Feliratkozom ✈
-        </button>
     </div>
 
 
     <!-- COPYRIGHT -->
-    <div class="copyright">
-        © 2026 CsillingShop - Minden jog fenntartva
-    </div>
+    <div class="cs-copyright">
 
-</div>
-
-
-<!-- FEHÉR RÉSZ -->
-<div class="footer-bottom">
-
-    <div class="social">
-
-    <!-- FACEBOOK -->
-    <a href="https://www.facebook.com/profile.php?id=61592823221674"
-       target="_blank"
-       rel="noopener noreferrer"
-       title="Facebook">
-        <i class="fa-brands fa-facebook-f"></i>
-    </a>
-
-    <!-- INSTAGRAM -->
-    <a href="#"
-       target="_blank"
-       rel="noopener noreferrer"
-       title="Instagram">
-        <i class="fa-brands fa-instagram"></i>
-    </a>
-
-    <!-- TIKTOK -->
-    <a href="#"
-       target="_blank"
-       rel="noopener noreferrer"
-       title="TikTok">
-        <i class="fa-brands fa-tiktok"></i>
-    </a>
-
-</div>
-
-    <div class="payment">
-
-        <div class="payment-title">
-            Fizetési lehetőségek:
-        </div>
-
-        <div class="payment-methods">
-            <span>G Pay</span>
-            <span> Pay</span>
-            <span>● Mastercard</span>
-            <span>VISA</span>
-        </div>
+        © 2026 CsillingShop · Minden jog fenntartva
 
     </div>
 
-</div>
-
 </footer>
 
-
-    
-
-</footer>
 
 <!-- ADMIN BELÉPÉS -->
+
 <button
-    class="admin-bottom"
-    onclick="window.location.href='admin-login.html'">
+    class="cs-admin-button"
+    onclick="window.location.href='admin-login.html'"
+>
     ⚙️ Admin belépés
-</button>
-
-<!-- VISSZA A TETEJÉRE -->
-<button
-    class="top-button"
-    onclick="window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    })">
-    ↑
-</button>
-
-
-<!-- VISSZA A TETEJÉRE -->
-
-<button
-    class="top-button"
-    onclick="window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    })">
-
-    ↑
-
 </button>
 
 </body>
