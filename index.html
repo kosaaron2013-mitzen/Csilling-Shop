@@ -247,9 +247,9 @@ border:1px solid #ccc;
 </div>
 
 
-<script>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
 
 const SUPABASE_URL =
     "https://sgzvnszxgfscqammnfpy.supabase.co";
@@ -263,14 +263,64 @@ const supabaseClient =
         SUPABASE_KEY
     );
 
+
 let termekek = [];
 
 let kosar =
-JSON.parse(localStorage.getItem("kosar")) || [];
+    JSON.parse(
+        localStorage.getItem("kosar")
+    ) || [];
 
 let kedvencek =
     JSON.parse(
-        localStorage.getItem("kedvencek")) || [];
+        localStorage.getItem("kedvencek")
+    ) || [];
+
+
+/* ==========================================
+   SUPABASE TERMÉKEK BETÖLTÉSE
+========================================== */
+
+async function termekekBetoltese(){
+
+    const { data, error } =
+        await supabaseClient
+            .from("termekek")
+            .select("*")
+            .order("created_at", {
+                ascending: false
+            });
+
+
+    if(error){
+
+        console.error(
+            "Supabase hiba:",
+            error
+        );
+
+        document.getElementById(
+            "termekLista"
+        ).innerHTML =
+            "<p>Nem sikerült betölteni a termékeket.</p>";
+
+        return;
+    }
+
+
+    termekek = data || [];
+
+
+    betoltTermekek();
+
+    frissitKedvencSzamlalo();
+
+}
+
+
+/* ==========================================
+   KEDVENC
+========================================== */
 
 function kedvencToggle(index){
 
@@ -304,194 +354,42 @@ function kedvencToggle(index){
     );
 
 
-    termekekBetoltese();
-
-}
-
-async function termekekBetoltese(){
-
-    const { data, error } =
-        await supabaseClient
-            .from("termekek")
-            .select("*")
-            .order("created_at", {
-                ascending: false
-            });
-
-    if(error){
-
-        console.error(error);
-
-        document.getElementById("termekLista").innerHTML =
-            "<p>Nem sikerült betölteni a termékeket.</p>";
-
-        return;
-    }
-
-    termekek = data || [];
-
     betoltTermekek();
 
     frissitKedvencSzamlalo();
 
 }
 
-function betoltTermekek(kat = "Összes"){
 
-    let lista =
-        document.getElementById("termekLista");
-
-    lista.innerHTML = "";
-
-
-    termekek.forEach((t, index) => {
-
-        if(kat !== "Összes" && t.kat !== kat){
-            return;
-        }
-
-
-        const kifogyott =
-            t.allapot === "Kifogyott";
-
-
-        const kedvenc =
-            kedvencek.some(
-                k => k.nev === t.nev
-            );
-
-
-        lista.innerHTML += `
-
-        <div class="product ${kifogyott ? "kifogyott" : ""}">
-
-            <img
-                src="kepek/${t.kep}"
-                onclick="termekOldal(${index})"
-                style="cursor:pointer"
-            >
-
-
-            <h2>${t.nev}</h2>
-
-
-            <p>${t.kat}</p>
-
-
-            <p class="price">
-                ${t.ar} Ft
-            </p>
-
-
-            <p class="${kifogyott ? "allapot-kifogyott" : "allapot-elerheto"}">
-                ${kifogyott ? "❌ Kifogyott" : "✅ Elérhető"}
-            </p>
-
-
-            <button
-                class="buy ${kifogyott ? "kifogyott-gomb" : ""}"
-                ${kifogyott ? "disabled" : ""}
-                onclick='kosarba(${JSON.stringify(t)})'
-            >
-                ${kifogyott ? "❌ Kifogyott" : "🛒 Kosárba"}
-            </button>
-
-
-            <button
-                class="favorite-button ${kedvenc ? "aktiv" : ""}"
-                onclick="kedvencToggle(${index})"
-            >
-                ${kedvenc ? "♥ Kedvenc" : "♡ Kedvencekhez"}
-            </button>
-
-        </div>
-
-        `;
-
-    });
-
-
-    frissitKosarSzamlalo();
-
-}
-
-
-
-function kosarba(termek){
-
-kosar.push(termek);
-
-localStorage.setItem(
-"kosar",
-JSON.stringify(kosar)
-);
-
-
-frissitKosarSzamlalo();
-
-alert(termek.nev + " bekerült a kosárba!");
-
-}
-
-
-
-function termekOldal(index){
-
-localStorage.setItem(
-"kivalasztottTermek",
-JSON.stringify(termekek[index])
-);
-
-window.location.href="termek.html";
-
-}
-
-
-
-function frissitKosarSzamlalo(){
-
-document.getElementById("cartCount").innerHTML =
-kosar.length;
-
-}
-
-
-
-function megnyitKosar(){
-
-window.location.href="kosar.html";
-
-}
-
-function kategoria(kat){
-
-    betoltTermekek(kat);
-    frissitKedvencSzamlalo();
-
-}
-
-
-function keres(){
-
-    let szoveg =
-        document.getElementById("kereso")
-        .value
-        .toLowerCase();
-
-
-    let lista =
-        document.getElementById("termekLista");
+/* ==========================================
+   TERMÉKEK MEGJELENÍTÉSE
+========================================== */
+
+function betoltTermekek(
+    kat = "Összes"
+){
+
+    const lista =
+        document.getElementById(
+            "termekLista"
+        );
 
 
     lista.innerHTML = "";
 
 
-    termekek.forEach((t, index) => {
+    termekek.forEach(
+        (t, index) => {
 
-        if(
-            t.nev.toLowerCase().includes(szoveg) ||
-            t.kat.toLowerCase().includes(szoveg)
-        ){
+            if(
+                kat !== "Összes" &&
+                t.kat !== kat
+            ){
+
+                return;
+
+            }
+
 
             const kifogyott =
                 t.allapot === "Kifogyott";
@@ -505,74 +403,362 @@ function keres(){
 
             lista.innerHTML += `
 
-            <div class="product ${kifogyott ? "kifogyott" : ""}">
+                <div class="product ${
+                    kifogyott
+                        ? "kifogyott"
+                        : ""
+                }">
 
-                <img
-                    src="kepek/${t.kep}"
-                    onclick="termekOldal(${index})"
-                    style="cursor:pointer"
-                >
+                    <img
+                        src="kepek/${t.kep}"
+                        onclick="termekOldal(${index})"
+                        style="cursor:pointer"
+                    >
+
+                    <h2>
+                        ${t.nev}
+                    </h2>
+
+                    <p>
+                        ${t.kat}
+                    </p>
+
+                    <p class="price">
+                        ${t.ar} Ft
+                    </p>
+
+                    <p class="${
+                        kifogyott
+                            ? "allapot-kifogyott"
+                            : "allapot-elerheto"
+                    }">
+
+                        ${
+                            kifogyott
+                                ? "❌ Kifogyott"
+                                : "✅ Elérhető"
+                        }
+
+                    </p>
 
 
-                <h2>${t.nev}</h2>
+                    <button
+                        class="buy ${
+                            kifogyott
+                                ? "kifogyott-gomb"
+                                : ""
+                        }"
+                        ${
+                            kifogyott
+                                ? "disabled"
+                                : ""
+                        }
+                        onclick='kosarba(${JSON.stringify(t)})'
+                    >
+
+                        ${
+                            kifogyott
+                                ? "❌ Kifogyott"
+                                : "🛒 Kosárba"
+                        }
+
+                    </button>
 
 
-                <p>${t.kat}</p>
+                    <button
+                        class="favorite-button ${
+                            kedvenc
+                                ? "aktiv"
+                                : ""
+                        }"
+                        onclick="kedvencToggle(${index})"
+                    >
 
+                        ${
+                            kedvenc
+                                ? "♥ Kedvenc"
+                                : "♡ Kedvencekhez"
+                        }
 
-                <p class="price">
-                    ${t.ar} Ft
-                </p>
+                    </button>
 
-
-                <p class="${kifogyott ? "allapot-kifogyott" : "allapot-elerheto"}">
-                    ${kifogyott ? "❌ Kifogyott" : "✅ Elérhető"}
-                </p>
-
-
-                <button
-                    class="buy ${kifogyott ? "kifogyott-gomb" : ""}"
-                    ${kifogyott ? "disabled" : ""}
-                    onclick='kosarba(${JSON.stringify(t)})'
-                >
-                    ${kifogyott ? "❌ Kifogyott" : "🛒 Kosárba"}
-                </button>
-
-
-                <button
-                    class="favorite-button ${kedvenc ? "aktiv" : ""}"
-                    onclick="kedvencToggle(${index})"
-                >
-                    ${kedvenc ? "♥ Kedvenc" : "♡ Kedvencekhez"}
-                </button>
-
-            </div>
+                </div>
 
             `;
 
         }
-
-    });
+    );
 
 
     frissitKosarSzamlalo();
 
 }
-betoltTermekek();
-frissitKedvencSzamlalo();
+
+
+/* ==========================================
+   KOSÁR
+========================================== */
+
+function kosarba(termek){
+
+    kosar.push(termek);
+
+
+    localStorage.setItem(
+        "kosar",
+        JSON.stringify(kosar)
+    );
+
+
+    frissitKosarSzamlalo();
+
+
+    alert(
+        termek.nev +
+        " bekerült a kosárba!"
+    );
+
+}
+
+
+/* ==========================================
+   TERMÉK OLDAL
+========================================== */
+
+function termekOldal(index){
+
+    localStorage.setItem(
+        "kivalasztottTermek",
+        JSON.stringify(
+            termekek[index]
+        )
+    );
+
+
+    window.location.href =
+        "termek.html";
+
+}
+
+
+/* ==========================================
+   KOSÁR SZÁMLÁLÓ
+========================================== */
+
+function frissitKosarSzamlalo(){
+
+    document.getElementById(
+        "cartCount"
+    ).innerHTML =
+        kosar.length;
+
+}
+
+
+/* ==========================================
+   KOSÁR MEGNYITÁSA
+========================================== */
+
+function megnyitKosar(){
+
+    window.location.href =
+        "kosar.html";
+
+}
+
+
+/* ==========================================
+   KATEGÓRIA
+========================================== */
+
+function kategoria(kat){
+
+    betoltTermekek(kat);
+
+    frissitKedvencSzamlalo();
+
+}
+
+
+/* ==========================================
+   KERESÉS
+========================================== */
+
+function keres(){
+
+    const szoveg =
+        document.getElementById(
+            "kereso"
+        )
+        .value
+        .toLowerCase();
+
+
+    const lista =
+        document.getElementById(
+            "termekLista"
+        );
+
+
+    lista.innerHTML = "";
+
+
+    termekek.forEach(
+        (t, index) => {
+
+            if(
+                t.nev
+                    .toLowerCase()
+                    .includes(szoveg)
+
+                ||
+
+                t.kat
+                    .toLowerCase()
+                    .includes(szoveg)
+            ){
+
+                const kifogyott =
+                    t.allapot === "Kifogyott";
+
+
+                const kedvenc =
+                    kedvencek.some(
+                        k => k.nev === t.nev
+                    );
+
+
+                lista.innerHTML += `
+
+                    <div class="product ${
+                        kifogyott
+                            ? "kifogyott"
+                            : ""
+                    }">
+
+                        <img
+                            src="kepek/${t.kep}"
+                            onclick="termekOldal(${index})"
+                            style="cursor:pointer"
+                        >
+
+                        <h2>
+                            ${t.nev}
+                        </h2>
+
+                        <p>
+                            ${t.kat}
+                        </p>
+
+                        <p class="price">
+                            ${t.ar} Ft
+                        </p>
+
+                        <p class="${
+                            kifogyott
+                                ? "allapot-kifogyott"
+                                : "allapot-elerheto"
+                        }">
+
+                            ${
+                                kifogyott
+                                    ? "❌ Kifogyott"
+                                    : "✅ Elérhető"
+                            }
+
+                        </p>
+
+
+                        <button
+                            class="buy ${
+                                kifogyott
+                                    ? "kifogyott-gomb"
+                                    : ""
+                            }"
+                            ${
+                                kifogyott
+                                    ? "disabled"
+                                    : ""
+                            }
+                            onclick='kosarba(${JSON.stringify(t)})'
+                        >
+
+                            ${
+                                kifogyott
+                                    ? "❌ Kifogyott"
+                                    : "🛒 Kosárba"
+                            }
+
+                        </button>
+
+
+                        <button
+                            class="favorite-button ${
+                                kedvenc
+                                    ? "aktiv"
+                                    : ""
+                            }"
+                            onclick="kedvencToggle(${index})"
+                        >
+
+                            ${
+                                kedvenc
+                                    ? "♥ Kedvenc"
+                                    : "♡ Kedvencekhez"
+                            }
+
+                        </button>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+    );
+
+
+    frissitKosarSzamlalo();
+
+}
+
+
+/* ==========================================
+   KEDVENC SZÁMLÁLÓ
+========================================== */
 
 function frissitKedvencSzamlalo(){
 
-    document.getElementById("favoriteCount").innerHTML =
+    document.getElementById(
+        "favoriteCount"
+    ).innerHTML =
         kedvencek.length;
 
 }
 
+
+/* ==========================================
+   KEDVENCEK MEGNYITÁSA
+========================================== */
+
 function megnyitKedvencek(){
 
-    window.location.href = "kedvencek.html";
+    window.location.href =
+        "kedvencek.html";
 
 }
+
+
+/* ==========================================
+   INDÍTÁS
+========================================== */
+
+termekekBetoltese();
+
+frissitKosarSzamlalo();
+
+frissitKedvencSzamlalo();
 
 </script>
 
