@@ -249,8 +249,21 @@ border:1px solid #ccc;
 
 <script>
 
-let termekek =
-JSON.parse(localStorage.getItem("termekek")) || [];
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+const SUPABASE_URL =
+    "https://sgzvnszxgfscqammnfpy.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_1XKBoPFGeMsHbYM_9PAO5A_KtI5TeKm";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+let termekek = [];
 
 let kosar =
 JSON.parse(localStorage.getItem("kosar")) || [];
@@ -291,7 +304,34 @@ function kedvencToggle(index){
     );
 
 
+    termekekBetoltese();
+
+}
+
+async function termekekBetoltese(){
+
+    const { data, error } =
+        await supabaseClient
+            .from("termekek")
+            .select("*")
+            .order("created_at", {
+                ascending: false
+            });
+
+    if(error){
+
+        console.error(error);
+
+        document.getElementById("termekLista").innerHTML =
+            "<p>Nem sikerült betölteni a termékeket.</p>";
+
+        return;
+    }
+
+    termekek = data || [];
+
     betoltTermekek();
+
     frissitKedvencSzamlalo();
 
 }
