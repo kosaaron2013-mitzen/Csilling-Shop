@@ -88,6 +88,67 @@ nav button {
     border-radius:15px;
 }
 
+/* =========================================
+   TERMÉKKÁRTYA
+========================================= */
+
+.product {
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        opacity 0.25s ease;
+}
+
+/* Kifogyott termék */
+.product.kifogyott {
+    opacity: 0.58;
+    filter: grayscale(18%);
+}
+
+/* Kifogyott kép */
+.product.kifogyott img {
+    opacity: 0.75;
+}
+
+/* Kifogyott gomb */
+.product .buy.kifogyott-gomb {
+    background: #777 !important;
+    cursor: not-allowed !important;
+    opacity: 0.8;
+}
+
+/* Kedvenc gomb */
+.favorite-button {
+    margin-top: 10px;
+    width: 100%;
+    padding: 10px;
+
+    border: 1px solid #20b2aa;
+    border-radius: 10px;
+
+    background: white;
+    color: #20b2aa;
+
+    cursor: pointer;
+    font-size: 15px;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.favorite-button:hover {
+    background: #20b2aa;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.favorite-button.aktiv {
+    background: #20b2aa;
+    color: white;
+}
+
 /* ===== AUTOMATIKUS MOBIL NÉZET ===== */
 @media (max-width:700px){
  body{overflow-x:hidden}
