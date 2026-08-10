@@ -346,28 +346,38 @@ betoltTermekek();
    FOOTER ALAP
 ========================= */
 
+/* ===== FOOTER TELJES SZÉLESSÉG JAVÍTÁS ===== */
+
 .cs-footer {
-    width: 100%;
-    margin-top: 90px;
-    background: #0b1414;
-    color: white;
-    font-family: Arial, sans-serif;
-    overflow: hidden;
+    width: 100vw !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    box-sizing: border-box !important;
 }
 
-/* TÜRKIZ VONAL A TETEJÉN */
+.cs-footer-main {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
+}
 
-.cs-footer::before {
-    content: "";
-    display: block;
-    width: 100%;
-    height: 5px;
-    background: linear-gradient(
-        90deg,
-        #20b2aa,
-        #55e0d7,
-        #20b2aa
-    );
+.cs-footer-bottom {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
+}
+
+.cs-footer-bottom-inner {
+    width: 100% !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
 }
 
 
