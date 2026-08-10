@@ -1033,6 +1033,44 @@ betoltTermekek();
     box-shadow: none !important;
 }
 
+/* ===== CSILLINGSHOP TERMÉKKÁRTYA HOVER ===== */
+
+.product {
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.product:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(32, 178, 170, 0.28);
+}
+
+/* Termékkép */
+
+.product img {
+    transition: transform 0.3s ease;
+}
+
+.product:hover img {
+    transform: scale(1.04);
+}
+
+/* Kosárba gomb */
+
+.product .buy {
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.product .buy:hover {
+    transform: translateY(-3px);
+    background: #20b2aa;
+    box-shadow: 0 6px 15px rgba(32, 178, 170, 0.25);
+}
+
 </style>
 
 
