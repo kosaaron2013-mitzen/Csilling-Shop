@@ -328,6 +328,8 @@ button:hover{
 </div>
 
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
 
 /* ==========================================
@@ -340,6 +342,12 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
     "sb_publishable_1XKBoPFGeMsHbYM_9PAO5A_KtI5TeKm";
 
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
 
 /* ==========================================
    ADMIN ELLENŐRZÉS
@@ -347,77 +355,8 @@ const SUPABASE_KEY =
 
 if(localStorage.getItem("admin") !== "igen"){
 
-    window.location.href = "admin-login.html";
-
-}
-
-
-/* ==========================================
-   SUPABASE KÉRÉS
-========================================== */
-
-async function supabaseFetch(url, options = {}){
-
-    const response = await fetch(
-        SUPABASE_URL + url,
-        {
-            ...options,
-
-            headers:{
-                "apikey":SUPABASE_KEY,
-                "Authorization":"Bearer " + SUPABASE_KEY,
-                "Content-Type":"application/json",
-
-                ...(options.headers || {})
-            }
-        }
-    );
-
-
-    if(!response.ok){
-
-        const errorText = await response.text();
-
-        throw new Error(errorText);
-
-    }
-
-
-    if(response.status === 204){
-        return null;
-    }
-
-
-    return await response.json();
-
-}
-
-
-/* ==========================================
-   ÜZENET
-========================================== */
-
-function uzenet(szoveg, siker = true){
-
-    const elem =
-        document.getElementById("uzenet");
-
-    elem.style.display = "block";
-
-    elem.style.background =
-        siker ? "#d1fae5" : "#fee2e2";
-
-    elem.style.color =
-        siker ? "#166534" : "#991b1b";
-
-    elem.innerText = szoveg;
-
-
-    setTimeout(()=>{
-
-        elem.style.display = "none";
-
-    },4000);
+    window.location.href =
+        "admin-login.html";
 
 }
 
@@ -426,30 +365,33 @@ function uzenet(szoveg, siker = true){
    TERMÉKEK BETÖLTÉSE
 ========================================== */
 
-async function betoltTermekek(){
-
-    try{
-
-        const termekek =
-            await supabaseFetch(
-                "/rest/v1/termekek?select=*&order=id.desc"
-            );
+let termekek = [];
 
 
-        mutat(termekek);
+async function termekekBetoltese(){
 
-    }
+    const { data, error } =
+        await supabaseClient
+            .from("termekek")
+            .select("*")
+            .order("created_at", {
+                ascending:false
+            });
 
-    catch(error){
+    if(error){
 
         console.error(error);
 
-        uzenet(
-            "Hiba történt a termékek betöltésekor.",
-            false
+        alert(
+            "Hiba történt a termékek betöltésekor!"
         );
 
+        return;
     }
+
+    termekek = data || [];
+
+    mutat();
 
 }
 
@@ -462,131 +404,122 @@ async function hozzaad(){
 
     const nev =
         document.getElementById("nev")
-        .value
-        .trim();
-
+            .value
+            .trim();
 
     const ar =
         document.getElementById("ar")
-        .value
-        .trim();
-
+            .value
+            .trim();
 
     const kat =
         document.getElementById("kat")
-        .value;
-
+            .value;
 
     const kep =
         document.getElementById("kep")
-        .value
-        .trim();
-
+            .value
+            .trim();
 
     const leiras =
         document.getElementById("leiras")
-        .value
-        .trim();
-
+            .value
+            .trim();
 
     const allapot =
         document.getElementById("allapot")
-        .value;
+            .value;
 
 
     /* Ellenőrzés */
 
     if(!nev){
 
-        alert("Írd be a termék nevét!");
+        alert(
+            "Írd be a termék nevét!"
+        );
 
         return;
-
     }
 
 
     if(!ar){
 
-        alert("Írd be a termék árát!");
+        alert(
+            "Írd be a termék árát!"
+        );
 
         return;
-
     }
 
 
     if(!kep){
 
-        alert("Írd be a kép nevét!");
+        alert(
+            "Írd be a kép nevét!"
+        );
 
         return;
-
     }
 
 
-    try{
+    /* ==========================================
+       SUPABASE MENTÉS
+    ========================================== */
 
-        await supabaseFetch(
-            "/rest/v1/termekek",
-            {
-                method:"POST",
-
-                headers:{
-                    "Prefer":"return=minimal"
-                },
-
-                body:JSON.stringify({
-
-                    nev:nev,
-
-                    ar:Number(ar),
-
-                    kat:kat,
-
-                    kep:kep,
-
-                    leiras:leiras,
-
-                    allapot:allapot
-
-                })
-
-            }
-        );
+    const { data, error } =
+        await supabaseClient
+            .from("termekek")
+            .insert([
+                {
+                    nev: nev,
+                    ar: Number(ar),
+                    kat: kat,
+                    kep: kep,
+                    leiras: leiras,
+                    allapot: allapot
+                }
+            ])
+            .select();
 
 
-        /* Mezők törlése */
-
-        document.getElementById("nev").value = "";
-
-        document.getElementById("ar").value = "";
-
-        document.getElementById("kep").value = "";
-
-        document.getElementById("leiras").value = "";
-
-        document.getElementById("allapot").value =
-            "Elérhető";
-
-
-        uzenet(
-            "A termék sikeresen hozzáadva!"
-        );
-
-
-        betoltTermekek();
-
-    }
-
-    catch(error){
+    if(error){
 
         console.error(error);
 
-        uzenet(
-            "Hiba történt a termék mentésekor.",
-            false
+        alert(
+            "Hiba történt a termék mentésekor!\n\n"
+            + error.message
         );
 
+        return;
     }
+
+
+    /* Mezők törlése */
+
+    document.getElementById("nev")
+        .value = "";
+
+    document.getElementById("ar")
+        .value = "";
+
+    document.getElementById("kep")
+        .value = "";
+
+    document.getElementById("leiras")
+        .value = "";
+
+    document.getElementById("allapot")
+        .value = "Elérhető";
+
+
+    await termekekBetoltese();
+
+
+    alert(
+        "A termék sikeresen hozzáadva a CsillingShophoz!"
+    );
 
 }
 
@@ -595,29 +528,26 @@ async function hozzaad(){
    TERMÉKEK MEGJELENÍTÉSE
 ========================================== */
 
-function mutat(termekek){
+function mutat(){
 
-    const lista =
+    let lista =
         document.getElementById("lista");
-
 
     lista.innerHTML = "";
 
 
-    if(!termekek || termekek.length === 0){
+    if(termekek.length === 0){
 
         lista.innerHTML =
             "<p>Még nincs hozzáadott termék.</p>";
 
         return;
-
     }
 
 
-    termekek.forEach((t)=>{
+    termekek.forEach((t,index)=>{
 
-
-        const allapotClass =
+        let allapotClass =
             t.allapot === "Elérhető"
             ? "allapot-elerheto"
             : "allapot-kifogyott";
@@ -628,40 +558,27 @@ function mutat(termekek){
         <div class="termek">
 
             <img
-                src="kepek/${escapeHtml(t.kep)}"
-                alt="${escapeHtml(t.nev)}"
+                src="kepek/${t.kep}"
+                alt="${t.nev}"
             >
 
-
             <h3>
-                ${escapeHtml(t.nev)}
+                ${t.nev}
             </h3>
 
-
             <p>
-
                 <strong>Ár:</strong>
-
-                ${escapeHtml(t.ar)} Ft
-
+                ${t.ar} Ft
             </p>
-
 
             <p>
-
                 <strong>Kategória:</strong>
-
-                ${escapeHtml(t.kat)}
-
+                ${t.kat}
             </p>
-
 
             <p class="${allapotClass}">
-
                 <strong>Állapot:</strong>
-
-                ${escapeHtml(t.allapot)}
-
+                ${t.allapot}
             </p>
 
 
@@ -669,21 +586,17 @@ function mutat(termekek){
 
                 <button
                     class="szerkesztes-gomb"
-                    onclick="szerkeszt(${t.id})"
+                    onclick="szerkeszt(${index})"
                 >
-
                     ✏️ Szerkesztés
-
                 </button>
 
 
                 <button
                     class="torles-gomb"
-                    onclick="torol(${t.id}, '${escapeJs(t.nev)}')"
+                    onclick="torol(${index})"
                 >
-
                     🗑️ Törlés
-
                 </button>
 
             </div>
@@ -691,7 +604,7 @@ function mutat(termekek){
 
             <div
                 class="szerkeszto"
-                id="szerkeszto-${t.id}"
+                id="szerkeszto-${index}"
             >
 
                 <strong>
@@ -703,10 +616,9 @@ function mutat(termekek){
                     Ár (Ft)
                 </label>
 
-
                 <input
                     type="number"
-                    id="modositottAr-${t.id}"
+                    id="modositottAr-${index}"
                     value="${t.ar}"
                     min="0"
                 >
@@ -716,9 +628,8 @@ function mutat(termekek){
                     Elérhetőség
                 </label>
 
-
                 <select
-                    id="modositottAllapot-${t.id}"
+                    id="modositottAllapot-${index}"
                 >
 
                     <option
@@ -727,9 +638,7 @@ function mutat(termekek){
                             ? "selected"
                             : ""}
                     >
-
                         Elérhető
-
                     </option>
 
 
@@ -739,9 +648,7 @@ function mutat(termekek){
                             ? "selected"
                             : ""}
                     >
-
                         Kifogyott
-
                     </option>
 
                 </select>
@@ -751,21 +658,17 @@ function mutat(termekek){
 
                     <button
                         class="mentes-gomb"
-                        onclick="modositasMentese(${t.id})"
+                        onclick="modositasMentese(${index})"
                     >
-
                         💾 Mentés
-
                     </button>
 
 
                     <button
                         class="megse-gomb"
-                        onclick="szerkesztesBezarsa(${t.id})"
+                        onclick="szerkesztesBezarsa(${index})"
                     >
-
                         Mégse
-
                     </button>
 
                 </div>
@@ -785,19 +688,14 @@ function mutat(termekek){
    SZERKESZTÉS MEGNYITÁSA
 ========================================== */
 
-function szerkeszt(id){
+function szerkeszt(index){
 
     const szerkeszto =
         document.getElementById(
-            "szerkeszto-" + id
+            "szerkeszto-" + index
         );
 
-
-    if(szerkeszto){
-
-        szerkeszto.classList.add("aktiv");
-
-    }
+    szerkeszto.classList.add("aktiv");
 
 }
 
@@ -806,19 +704,14 @@ function szerkeszt(id){
    SZERKESZTÉS BEZÁRÁSA
 ========================================== */
 
-function szerkesztesBezarsa(id){
+function szerkesztesBezarsa(index){
 
     const szerkeszto =
         document.getElementById(
-            "szerkeszto-" + id
+            "szerkeszto-" + index
         );
 
-
-    if(szerkeszto){
-
-        szerkeszto.classList.remove("aktiv");
-
-    }
+    szerkeszto.classList.remove("aktiv");
 
 }
 
@@ -827,83 +720,76 @@ function szerkesztesBezarsa(id){
    MÓDOSÍTÁS MENTÉSE
 ========================================== */
 
-async function modositasMentese(id){
+async function modositasMentese(index){
 
     const ujAr =
         document.getElementById(
-            "modositottAr-" + id
-        )
-        .value
-        .trim();
+            "modositottAr-" + index
+        ).value.trim();
 
 
     const ujAllapot =
         document.getElementById(
-            "modositottAllapot-" + id
-        )
-        .value;
+            "modositottAllapot-" + index
+        ).value;
 
 
     if(!ujAr){
 
-        alert("Adj meg egy árat!");
+        alert(
+            "Adj meg egy árat!"
+        );
 
         return;
-
     }
 
 
     if(Number(ujAr) < 0){
 
-        alert("Az ár nem lehet negatív!");
+        alert(
+            "Az ár nem lehet negatív!"
+        );
 
         return;
-
     }
 
 
-    try{
-
-        await supabaseFetch(
-            "/rest/v1/termekek?id=eq." + id,
-            {
-                method:"PATCH",
-
-                headers:{
-                    "Prefer":"return=minimal"
-                },
-
-                body:JSON.stringify({
-
-                    ar:Number(ujAr),
-
-                    allapot:ujAllapot
-
-                })
-
-            }
-        );
+    const termek =
+        termekek[index];
 
 
-        uzenet(
-            "A módosítás sikeresen elmentve!"
-        );
+    const { error } =
+        await supabaseClient
+            .from("termekek")
+            .update({
+
+                ar: Number(ujAr),
+
+                allapot: ujAllapot
+
+            })
+            .eq("id", termek.id);
 
 
-        betoltTermekek();
-
-    }
-
-    catch(error){
+    if(error){
 
         console.error(error);
 
-        uzenet(
-            "Hiba történt a módosítás mentésekor.",
-            false
+        alert(
+            "Hiba történt a módosításkor!\n\n"
+            + error.message
         );
 
+        return;
     }
+
+
+    await termekekBetoltese();
+
+
+    alert(
+        "A módosítás sikeresen elmentve!"
+    );
 
 }
 
@@ -912,83 +798,52 @@ async function modositasMentese(id){
    TERMÉK TÖRLÉSE
 ========================================== */
 
-async function torol(id, nev){
+async function torol(index){
+
+    const termek =
+        termekek[index];
+
 
     const biztos =
         confirm(
-            "Biztosan törölni szeretnéd ezt a terméket?\n\n"
-            + nev
+
+            `Biztosan törölni szeretnéd ezt a terméket?\n\n${termek.nev}`
+
         );
 
 
     if(!biztos){
 
         return;
-
     }
 
 
-    try{
-
-        await supabaseFetch(
-            "/rest/v1/termekek?id=eq." + id,
-            {
-                method:"DELETE",
-
-                headers:{
-                    "Prefer":"return=minimal"
-                }
-
-            }
-        );
+    const { error } =
+        await supabaseClient
+            .from("termekek")
+            .delete()
+            .eq("id", termek.id);
 
 
-        uzenet(
-            "A termék sikeresen törölve!"
-        );
-
-
-        betoltTermekek();
-
-    }
-
-    catch(error){
+    if(error){
 
         console.error(error);
 
-        uzenet(
-            "Hiba történt a termék törlésekor.",
-            false
+        alert(
+            "Hiba történt a törléskor!\n\n"
+            + error.message
         );
 
+        return;
     }
 
-}
+
+    await termekekBetoltese();
 
 
-/* ==========================================
-   HTML BIZTONSÁG
-========================================== */
-
-function escapeHtml(value){
-
-    return String(value ?? "")
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-
-}
-
-
-function escapeJs(value){
-
-    return String(value ?? "")
-        .replace(/\\/g,"\\\\")
-        .replace(/'/g,"\\'")
-        .replace(/\n/g,"\\n")
-        .replace(/\r/g,"\\r");
+    alert(
+        "A termék törölve lett!"
+    );
 
 }
 
@@ -997,7 +852,7 @@ function escapeJs(value){
    INDÍTÁS
 ========================================== */
 
-betoltTermekek();
+termekekBetoltese();
 
 </script>
 
