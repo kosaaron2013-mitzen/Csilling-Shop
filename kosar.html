@@ -264,6 +264,28 @@ function szallitasiAr() {
     return 0;
 }
 
+function fizetesre() {
+
+    if (kosar.length === 0) {
+        alert("A kosarad üres!");
+        return;
+    }
+
+    let nev = document.querySelectorAll("input")[0].value;
+    let cim = document.querySelectorAll("input")[1].value;
+    let email = document.querySelectorAll("input")[2].value;
+
+    if (nev === "" || cim === "" || email === "") {
+        alert("Kérlek töltsd ki az adatokat!");
+        return;
+    }
+
+    localStorage.setItem("fizetes_nev", nev);
+    localStorage.setItem("fizetes_cim", cim);
+    localStorage.setItem("fizetes_email", email);
+
+    window.location.href = "fizetes.html";
+}
 
 function mutat() {
 
