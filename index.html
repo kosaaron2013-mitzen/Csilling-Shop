@@ -927,6 +927,54 @@ betoltTermekek();
     border-bottom: none !important;
 }
 
+/* =========================================
+   FOOTER - VÉGLEGES ELVÁLASZTÓK
+========================================= */
+
+/* A COPYRIGHT KÖRÜLI FEHÉR/TÜRKIZ VONALAK KI */
+.cs-copyright {
+    border: none !important;
+    border-top: none !important;
+    border-bottom: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* SOCIAL + FIZETÉSI RÉSZ FELETTI TÜRKIZ VONAL KI */
+.cs-footer-bottom {
+    border-top: 4px solid #050a0a !important;
+    border-bottom: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    
+    background: #070e0e !important;
+}
+
+/* A FŐ FOOTER ALJÁN SE LEGYEN VONAL */
+.cs-footer-main {
+    border-bottom: none !important;
+    box-shadow: none !important;
+}
+
+/* MINDEN PSEUDO-ELEM VONALA KI,
+   KIVÉVE A LEGFELSŐ TÜRKIZ CSÍKOT */
+.cs-footer-main::before,
+.cs-footer-main::after,
+.cs-copyright::before,
+.cs-copyright::after,
+.cs-footer-bottom::before,
+.cs-footer-bottom::after {
+    display: none !important;
+}
+
+/* CSAK EZ MARAD TÜRKIZ */
+.cs-footer::before {
+    display: block !important;
+    height: 5px !important;
+    background: #20b2aa !important;
+    border: none !important;
+}
+
 </style>
 
 
