@@ -1,12 +1,21 @@
 <!DOCTYPE html>
 <html lang="hu">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Fizetés – CsillingShop</title>
 
+<!-- Font Awesome -->
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+>
+
 <style>
+
 * {
     box-sizing: border-box;
 }
@@ -18,6 +27,11 @@ body {
     color: #e8eeee;
     line-height: 1.7;
 }
+
+
+/* =========================
+   FEJLÉC
+========================= */
 
 header {
     background: #0b1818;
@@ -33,6 +47,11 @@ header {
     text-decoration: none;
 }
 
+
+/* =========================
+   TARTALOM
+========================= */
+
 .container {
     max-width: 900px;
     margin: 40px auto;
@@ -47,6 +66,11 @@ header {
     box-shadow: 0 10px 30px rgba(0,0,0,0.25);
 }
 
+
+/* =========================
+   CÍMEK
+========================= */
+
 h1 {
     color: #35d8d0;
     margin-top: 0;
@@ -58,7 +82,8 @@ h2 {
     margin-top: 30px;
 }
 
-p, li {
+p,
+li {
     color: #dce5e5;
 }
 
@@ -66,17 +91,40 @@ ul {
     padding-left: 25px;
 }
 
+
+/* =========================
+   FIZETÉSI KÁRTYÁK
+========================= */
+
 .payment-box {
     background: #0b1919;
     border: 1px solid #245858;
     border-radius: 12px;
-    padding: 18px;
+    padding: 22px;
     margin: 15px 0;
 }
 
-.payment-box strong {
-    color: #35d8d0;
+
+/* =========================
+   FIZETÉSI IKONOK
+========================= */
+
+.payment-logo {
+    display: flex;
+    align-items: center;
+    height: 65px;
+    margin-bottom: 15px;
 }
+
+.payment-logo i {
+    font-size: 58px;
+    line-height: 1;
+}
+
+
+/* =========================
+   VISSZA GOMB
+========================= */
 
 .back {
     display: inline-block;
@@ -95,6 +143,11 @@ ul {
     transform: translateY(-2px);
 }
 
+
+/* =========================
+   FOOTER
+========================= */
+
 footer {
     margin-top: 50px;
     padding: 25px;
@@ -104,7 +157,13 @@ footer {
     font-size: 14px;
 }
 
+
+/* =========================
+   MOBIL
+========================= */
+
 @media (max-width: 600px) {
+
     .card {
         padding: 22px;
     }
@@ -112,24 +171,42 @@ footer {
     h1 {
         font-size: 26px;
     }
-}
-</style>
 
-<link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
->
+    .payment-logo i {
+        font-size: 50px;
+    }
+
+}
+
+</style>
 
 </head>
 
+
 <body>
 
+
+<!-- =========================
+     FEJLÉC
+========================= -->
+
 <header>
-    <a href="index.html" class="logo">CSILLINGSHOP</a>
+
+    <a href="index.html" class="logo">
+        CSILLINGSHOP
+    </a>
+
 </header>
 
+
+<!-- =========================
+     TARTALOM
+========================= -->
+
 <div class="container">
+
     <div class="card">
+
 
         <h1>Fizetés</h1>
 
@@ -138,40 +215,67 @@ footer {
             elérhető fizetési módok közül választhatsz.
         </p>
 
+
         <h2>Elérhető fizetési módok</h2>
 
-<div class="payment-box">
-    <div class="payment-logo">
-        <i class="fa-brands fa-google-pay"></i>
-    </div>
 
-    <p>
-        Google Pay használatával gyorsan és biztonságosan fizethetsz,
-        amennyiben ez a fizetési mód elérhető a pénztárnál.
-    </p>
-</div>
+        <!-- GOOGLE PAY -->
 
-<div class="payment-box">
-    <div class="payment-logo">
-        <i class="fa-brands fa-apple-pay"></i>
-    </div>
+        <div class="payment-box">
 
-    <p>
-        Apple Pay használatával is fizethetsz, amennyiben a szolgáltatás
-        elérhető az eszközödön és a pénztárnál.
-    </p>
-</div>
+            <div class="payment-logo">
 
-<div class="payment-box">
-    <div class="payment-logo">
-        <i class="fa-brands fa-cc-mastercard"></i>
-    </div>
+                <i class="fa-brands fa-google-pay"></i>
 
-    <p>
-        Mastercard bankkártyával történő fizetés a fizetési szolgáltató
-        rendszerén keresztül.
-    </p>
-</div>
+            </div>
+
+            <p>
+                Google Pay használatával gyorsan és biztonságosan fizethetsz,
+                amennyiben ez a fizetési mód elérhető a pénztárnál.
+            </p>
+
+        </div>
+
+
+        <!-- APPLE PAY -->
+
+        <div class="payment-box">
+
+            <div class="payment-logo">
+
+                <i class="fa-brands fa-apple-pay"></i>
+
+            </div>
+
+            <p>
+                Apple Pay használatával is fizethetsz, amennyiben a szolgáltatás
+                elérhető az eszközödön és a pénztárnál.
+            </p>
+
+        </div>
+
+
+        <!-- MASTERCARD -->
+
+        <div class="payment-box">
+
+            <div class="payment-logo">
+
+                <i class="fa-brands fa-cc-mastercard"></i>
+
+            </div>
+
+            <p>
+                Mastercard bankkártyával történő fizetés a fizetési szolgáltató
+                rendszerén keresztül.
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             FIZETÉSI BIZTONSÁG
+        ========================= -->
 
         <h2>Fizetési biztonság</h2>
 
@@ -181,6 +285,11 @@ footer {
             fizetési szolgáltató kezeli.
         </p>
 
+
+        <!-- =========================
+             SIKERTELEN FIZETÉS
+        ========================= -->
+
         <h2>Sikertelen fizetés</h2>
 
         <p>
@@ -189,6 +298,11 @@ footer {
             adatokat, majd szükség esetén újra megpróbálni a fizetést.
         </p>
 
+
+        <!-- =========================
+             FONTOS
+        ========================= -->
+
         <h2>Fontos</h2>
 
         <p>
@@ -196,14 +310,28 @@ footer {
             megjelenő lehetőségek határozzák meg.
         </p>
 
-        <a href="index.html" class="back">← Vissza a CsillingShophoz</a>
+
+        <a href="index.html" class="back">
+            ← Vissza a CsillingShophoz
+        </a>
+
 
     </div>
+
 </div>
 
+
+<!-- =========================
+     FOOTER
+========================= -->
+
 <footer>
+
     © 2026 CsillingShop – Minden jog fenntartva
+
 </footer>
 
+
 </body>
+
 </html>
