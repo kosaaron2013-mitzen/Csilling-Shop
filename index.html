@@ -47,6 +47,17 @@ nav button {
     padding:30px;
 }
 
+#favorites {
+    background: #333;
+    color: white;
+    padding: 15px;
+    position: fixed;
+    left: 20px;
+    top: 20px;
+    border-radius: 15px;
+    z-index: 10;
+}
+
 .product {
     background:white;
     width:260px;
@@ -165,6 +176,12 @@ nav button {
  .price{font-size:18px!important}
  .buy{width:100%;padding:10px 5px;font-size:13px}
  #cart{right:10px;top:10px;padding:9px 11px;font-size:13px;z-index:10}
+ #favorites {
+    left: 10px;
+    top: 10px;
+    padding: 9px 11px;
+    font-size: 13px;
+}
 }
 @media(max-width:380px){
  .shop{grid-template-columns:1fr}
@@ -181,6 +198,9 @@ nav button {
 🛒 Kosár: <span id="cartCount">0</span>
 </div>
 
+<div id="favorites" onclick="megnyitKedvencek()" style="cursor:pointer">
+    ❤️ Kedvencek: <span id="favoriteCount">0</span>
+</div>
 
 <header>
 <h1>✨ CsillingShop ✨</h1>
@@ -272,6 +292,7 @@ function kedvencToggle(index){
 
 
     betoltTermekek();
+    frissitKedvencSzamlalo();
 
 }
 
@@ -405,6 +426,7 @@ window.location.href="kosar.html";
 function kategoria(kat){
 
     betoltTermekek(kat);
+    frissitKedvencSzamlalo();
 
 }
 
@@ -497,7 +519,20 @@ function keres(){
 
 }
 betoltTermekek();
+frissitKedvencSzamlalo();
 
+function frissitKedvencSzamlalo(){
+
+    document.getElementById("favoriteCount").innerHTML =
+        kedvencek.length;
+
+}
+
+function megnyitKedvencek(){
+
+    window.location.href = "kedvencek.html";
+
+}
 
 </script>
 
