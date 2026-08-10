@@ -1014,6 +1014,34 @@ betoltTermekek();
     transform: translateY(-2px);
 }
 
+/* ===== SOCIAL / FIZETÉS FELETTI TÜRKIZ CSÍK KI ===== */
+
+.cs-footer-bottom {
+    border-top: 0 !important;
+    border-bottom: 0 !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+
+    box-shadow: none !important;
+
+    background: #070e0e !important;
+}
+
+/* Ha pseudo-element lenne a vonal */
+
+.cs-footer-bottom::before,
+.cs-footer-bottom::after {
+    content: none !important;
+    display: none !important;
+}
+
+/* A belső rész se rajzoljon vonalat */
+
+.cs-footer-bottom-inner {
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
 </style>
 
 
