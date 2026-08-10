@@ -1,1 +1,872 @@
+<!DOCTYPE html>
+<html lang="hu">
 
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CsillingShop - Fizetés</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    padding: 25px 15px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #073b4c,
+            #006f70,
+            #00a6a6
+        );
+
+    color: #123;
+}
+
+.container {
+    max-width: 650px;
+    margin: auto;
+}
+
+/* FEJLÉC */
+
+.header {
+    text-align: center;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 32px;
+}
+
+.header p {
+    margin-top: 8px;
+    opacity: 0.9;
+}
+
+/* FŐ KÁRTYA */
+
+.card {
+    background: rgba(255,255,255,0.97);
+    border-radius: 20px;
+    padding: 28px;
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,0.25);
+}
+
+/* FIGYELMEZTETÉS */
+
+.test-info {
+    background: #e0fafa;
+    border: 2px solid #9cdddd;
+    color: #176263;
+
+    padding: 14px;
+    border-radius: 12px;
+
+    margin-bottom: 20px;
+
+    line-height: 1.5;
+}
+
+.test-number {
+    display: inline-block;
+
+    background: #006f70;
+    color: white;
+
+    padding: 5px 9px;
+
+    border-radius: 6px;
+
+    font-family: monospace;
+    font-weight: bold;
+}
+
+/* ÖSSZEG */
+
+.amount-box {
+    background: linear-gradient(
+        135deg,
+        #d9fafa,
+        #c3eeee
+    );
+
+    border-radius: 15px;
+    padding: 18px;
+
+    text-align: center;
+
+    margin-bottom: 22px;
+
+    border: 1px solid #9cdddd;
+}
+
+.amount-title {
+    color: #397171;
+    font-size: 15px;
+}
+
+.amount {
+    color: #008f91;
+    font-size: 32px;
+    font-weight: bold;
+
+    margin-top: 5px;
+}
+
+/* ADATOK */
+
+h2 {
+    color: #006f70;
+
+    border-bottom:
+        2px solid #b9eeee;
+
+    padding-bottom: 8px;
+}
+
+.info {
+    background: #f1ffff;
+
+    border: 1px solid #c2e9e9;
+
+    border-radius: 10px;
+
+    padding: 12px;
+
+    margin: 8px 0;
+
+    color: #245d5e;
+}
+
+/* KÁRTYA */
+
+label {
+    display: block;
+
+    margin-top: 15px;
+    margin-bottom: 6px;
+
+    font-weight: bold;
+
+    color: #176263;
+}
+
+input {
+    width: 100%;
+
+    padding: 14px;
+
+    border: 2px solid #b5e5e5;
+
+    border-radius: 10px;
+
+    background: #f5ffff;
+
+    font-size: 18px;
+
+    outline: none;
+
+    letter-spacing: 1px;
+}
+
+input:focus {
+    border-color: #00a6a6;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(0,166,166,0.12);
+}
+
+/* FIZETÉS GOMB */
+
+.pay-button {
+    width: 100%;
+
+    margin-top: 22px;
+
+    padding: 15px;
+
+    border: none;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #00c6c6,
+            #008f91
+        );
+
+    color: white;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 5px 15px
+        rgba(0,130,130,0.25);
+
+    transition: 0.2s;
+}
+
+.pay-button:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px
+        rgba(0,130,130,0.35);
+}
+
+.pay-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ÜZENET */
+
+.message {
+    display: none;
+
+    margin-top: 18px;
+
+    padding: 14px;
+
+    border-radius: 10px;
+
+    text-align: center;
+
+    font-weight: bold;
+}
+
+.error {
+    background: #ffe1df;
+    color: #b52d24;
+    border: 1px solid #f1aaa5;
+}
+
+.success {
+    background: #dcf9e5;
+    color: #23733c;
+    border: 1px solid #a9dfb8;
+}
+
+/* MOBIL */
+
+@media(max-width:700px) {
+
+    body {
+        padding: 12px 10px;
+    }
+
+    .card {
+        padding: 20px 15px;
+        border-radius: 16px;
+    }
+
+    .header h1 {
+        font-size: 27px;
+    }
+
+    .amount {
+        font-size: 28px;
+    }
+
+    input {
+        font-size: 16px;
+    }
+
+}
+
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <div class="header">
+
+        <h1>💳 CsillingShop Fizetés</h1>
+
+        <p>Biztonságos tesztfizetés</p>
+
+    </div>
+
+
+    <div class="card">
+
+
+        <div class="test-info">
+
+            🧪 <strong>TESZTFIZETÉS</strong><br>
+
+            Ez az oldal jelenleg csak gyakorlásra szolgál.
+            Nem történik valódi bankkártyás fizetés.
+
+            <br><br>
+
+            Használd ezt a tesztszámot:
+
+            <br>
+
+            <span class="test-number">
+                1234 5678 9012 3456
+            </span>
+
+        </div>
+
+
+        <div class="amount-box">
+
+            <div class="amount-title">
+                Fizetendő összeg
+            </div>
+
+            <div class="amount">
+                <span id="osszeg">0</span> Ft
+            </div>
+
+        </div>
+
+
+        <h2>📦 Rendelési adatok</h2>
+
+
+        <div class="info">
+            👤 <strong>Név:</strong>
+            <span id="nev">-</span>
+        </div>
+
+
+        <div class="info">
+            🏠 <strong>Cím:</strong>
+            <span id="cim">-</span>
+        </div>
+
+
+        <div class="info">
+            📧 <strong>E-mail:</strong>
+            <span id="email">-</span>
+        </div>
+
+
+        <div class="info">
+            🚚 <strong>Szállítás:</strong>
+            <span id="szallitas">-</span>
+        </div>
+
+
+        <h2>💳 Tesztkártya</h2>
+
+
+        <label for="kartya">
+            Tesztkártyaszám
+        </label>
+
+
+        <input
+            type="text"
+            id="kartya"
+            placeholder="1234 5678 9012 3456"
+            maxlength="19"
+            autocomplete="off"
+        >
+
+
+        <div
+            id="hiba"
+            class="message error">
+        </div>
+
+
+        <div
+            id="siker"
+            class="message success">
+        </div>
+
+
+        <button
+            id="fizetesGomb"
+            class="pay-button"
+            onclick="fizetes()">
+
+            💳 Tesztfizetés indítása
+
+        </button>
+
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+/* =========================================
+   EMAILJS
+========================================= */
+
+emailjs.init("f_7yUHQVlclTjAfvE");
+
+
+/* =========================================
+   ADATOK BETÖLTÉSE
+========================================= */
+
+let kosar =
+    JSON.parse(
+        localStorage.getItem("kosar")
+    ) || [];
+
+
+let nev =
+    localStorage.getItem("fizetes_nev") || "";
+
+
+let cim =
+    localStorage.getItem("fizetes_cim") || "";
+
+
+let email =
+    localStorage.getItem("fizetes_email") || "";
+
+
+/*
+   A szállítási módot a kosár oldalról
+   is elmentjük, de ha még nincs ott,
+   akkor az alapértelmezett értéket használjuk.
+*/
+
+let szallitas =
+    localStorage.getItem("fizetes_szallitas")
+    || "Csomagautomata - 999 Ft";
+
+
+/* =========================================
+   ADATOK MEGJELENÍTÉSE
+========================================= */
+
+document.getElementById("nev").textContent =
+    nev || "-";
+
+
+document.getElementById("cim").textContent =
+    cim || "-";
+
+
+document.getElementById("email").textContent =
+    email || "-";
+
+
+document.getElementById("szallitas").textContent =
+    szallitas;
+
+
+/* =========================================
+   SZÁLLÍTÁSI DÍJ
+========================================= */
+
+function szallitasiAr() {
+
+    if (szallitas.includes("999")) {
+        return 999;
+    }
+
+    if (szallitas.includes("1990")) {
+        return 1990;
+    }
+
+    return 0;
+}
+
+
+/* =========================================
+   VÉGÖSSZEG
+========================================= */
+
+function vegosszeg() {
+
+    let osszeg = 0;
+
+    kosar.forEach(function(t) {
+
+        osszeg += Number(t.ar);
+
+    });
+
+    osszeg += szallitasiAr();
+
+    return osszeg;
+}
+
+
+document.getElementById("osszeg").textContent =
+    vegosszeg();
+
+
+/* =========================================
+   KÁRTYASZÁM FORMÁZÁSA
+========================================= */
+
+document.getElementById("kartya")
+    .addEventListener("input", function(e) {
+
+        let value =
+            e.target.value
+            .replace(/\D/g, "")
+            .substring(0, 16);
+
+        let formatted = "";
+
+        for (
+            let i = 0;
+            i < value.length;
+            i++
+        ) {
+
+            if (
+                i > 0 &&
+                i % 4 === 0
+            ) {
+                formatted += " ";
+            }
+
+            formatted += value[i];
+
+        }
+
+        e.target.value = formatted;
+
+    });
+
+
+/* =========================================
+   HIBA ÜZENET
+========================================= */
+
+function hiba(uzenet) {
+
+    let elem =
+        document.getElementById("hiba");
+
+    elem.textContent =
+        "❌ " + uzenet;
+
+    elem.style.display = "block";
+
+    document.getElementById("siker")
+        .style.display = "none";
+}
+
+
+/* =========================================
+   FIZETÉS
+========================================= */
+
+function fizetes() {
+
+    let kartya =
+        document.getElementById("kartya")
+        .value
+        .replace(/\s/g, "");
+
+
+    /* ÜRES KOSÁR */
+
+    if (kosar.length === 0) {
+
+        hiba("A kosarad üres!");
+
+        return;
+
+    }
+
+
+    /* ADATOK ELLENŐRZÉSE */
+
+    if (
+        nev === "" ||
+        cim === "" ||
+        email === ""
+    ) {
+
+        hiba(
+            "Hiányoznak a rendelési adatok!"
+        );
+
+        return;
+
+    }
+
+
+    /* TESZTSZÁM ELLENŐRZÉSE */
+
+    if (
+        kartya !== "1234567890123456"
+    ) {
+
+        hiba(
+            "Hibás tesztkártyaszám! " +
+            "Használd: 1234 5678 9012 3456"
+        );
+
+        return;
+
+    }
+
+
+    /* GOMB LETILTÁSA */
+
+    let gomb =
+        document.getElementById(
+            "fizetesGomb"
+        );
+
+    gomb.disabled = true;
+
+    gomb.textContent =
+        "⏳ Rendelés feldolgozása...";
+
+
+    /* =====================================
+       TERMÉKEK ÖSSZEÁLLÍTÁSA
+    ===================================== */
+
+    let termekLista = "";
+
+    kosar.forEach(function(t) {
+
+        termekLista +=
+            t.nev +
+            " - " +
+            t.ar +
+            " Ft<br>";
+
+    });
+
+
+    /* =====================================
+       VÉGÖSSZEG
+    ===================================== */
+
+    let osszeg =
+        vegosszeg();
+
+
+    /* =====================================
+       RENDELÉSSZÁM
+    ===================================== */
+
+    let datum = new Date();
+
+    let rendelesSzam =
+        "CS-" +
+        datum.getFullYear() +
+        String(
+            datum.getMonth() + 1
+        ).padStart(2, "0") +
+        String(
+            datum.getDate()
+        ).padStart(2, "0") +
+        "-" +
+        Math.floor(
+            1000 + Math.random() * 9000
+        );
+
+
+    /* =====================================
+       ADMIN RENDELÉS MENTÉSE
+    ===================================== */
+
+    let rendelesek =
+        JSON.parse(
+            localStorage.getItem(
+                "rendelesek"
+            )
+        ) || [];
+
+
+    let ujRendeles = {
+
+        rendelesszam:
+            rendelesSzam,
+
+        nev:
+            nev,
+
+        cim:
+            cim,
+
+        email:
+            email,
+
+        termekek:
+            termekLista,
+
+        szallitas:
+            szallitas,
+
+        osszeg:
+            osszeg,
+
+        allapot:
+            "Új"
+
+    };
+
+
+    rendelesek.push(
+        ujRendeles
+    );
+
+
+    localStorage.setItem(
+        "rendelesek",
+        JSON.stringify(
+            rendelesek
+        )
+    );
+
+
+    /* =====================================
+       EMAILJS
+    ===================================== */
+
+    emailjs.send(
+
+        "service_siwsf4p",
+
+        "template_r6bn9il",
+
+        {
+
+            rendelesszam:
+                rendelesSzam,
+
+            nev:
+                nev,
+
+            cim:
+                cim,
+
+            email:
+                email,
+
+            termekek:
+                termekLista,
+
+            szallitas:
+                szallitas,
+
+            osszeg:
+                osszeg
+
+        }
+
+    )
+
+    .then(function() {
+
+
+        /* SIKERES ÜZENET */
+
+        document.getElementById("hiba")
+            .style.display = "none";
+
+
+        document.getElementById("siker")
+            .innerHTML =
+                "✅ Sikeres tesztfizetés!<br>" +
+                "Rendelésszám: " +
+                rendelesSzam;
+
+
+        document.getElementById("siker")
+            .style.display = "block";
+
+
+        gomb.textContent =
+            "✅ Rendelés elküldve!";
+
+
+        /* KOSÁR TÖRLÉSE */
+
+        localStorage.removeItem(
+            "kosar"
+        );
+
+        localStorage.removeItem(
+            "fizetes_nev"
+        );
+
+        localStorage.removeItem(
+            "fizetes_cim"
+        );
+
+        localStorage.removeItem(
+            "fizetes_email"
+        );
+
+        localStorage.removeItem(
+            "fizetes_szallitas"
+        );
+
+
+        kosar = [];
+
+
+    })
+
+    .catch(function(error) {
+
+
+        console.error(
+            "EmailJS hiba:",
+            error
+        );
+
+
+        hiba(
+            "A rendelés mentése sikerült, " +
+            "de az e-mail elküldése nem sikerült."
+        );
+
+
+        gomb.disabled = false;
+
+        gomb.textContent =
+            "💳 Újrapróbálás";
+
+    });
+
+}
+
+</script>
+
+
+</body>
+</html>
