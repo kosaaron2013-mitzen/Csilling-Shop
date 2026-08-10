@@ -239,6 +239,42 @@ let kedvencek =
     JSON.parse(
         localStorage.getItem("kedvencek")) || [];
 
+function kedvencToggle(index){
+
+    const termek =
+        termekek[index];
+
+
+    const letezik =
+        kedvencek.findIndex(
+            k => k.nev === termek.nev
+        );
+
+
+    if(letezik !== -1){
+
+        kedvencek.splice(
+            letezik,
+            1
+        );
+
+    } else {
+
+        kedvencek.push(termek);
+
+    }
+
+
+    localStorage.setItem(
+        "kedvencek",
+        JSON.stringify(kedvencek)
+    );
+
+
+    betoltTermekek();
+
+}
+
 function betoltTermekek(kat = "Összes"){
 
     let lista =
