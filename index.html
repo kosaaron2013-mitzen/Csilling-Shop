@@ -238,51 +238,80 @@ JSON.parse(localStorage.getItem("kosar")) || [];
 
 function betoltTermekek(kat = "Összes"){
 
-let lista = document.getElementById("termekLista");
+    let lista =
+        document.getElementById("termekLista");
 
-lista.innerHTML = "";
-
-
-termekek.forEach((t)=>{
+    lista.innerHTML = "";
 
 
-if(kat !== "Összes" && t.kat !== kat){
-    return;
-}
+    termekek.forEach((t, index) => {
+
+        if(kat !== "Összes" && t.kat !== kat){
+            return;
+        }
 
 
-lista.innerHTML += `
-
-<div class="product">
-
-<img 
-src="kepek/${t.kep}"
-onclick="termekOldal(${termekek.indexOf(t)})"
-style="cursor:pointer"
->
-
-<h2>${t.nev}</h2>
-
-<p>${t.kat}</p>
-
-<p class="price">
-${t.ar} Ft
-</p>
+        const kifogyott =
+            t.allapot === "Kifogyott";
 
 
-<button class="buy" onclick='kosarba(${JSON.stringify(t)})'>
-🛒 Kosárba
-</button>
+        const kedvenc =
+            kedvencek.some(
+                k => k.nev === t.nev
+            );
 
 
-</div>
+        lista.innerHTML += `
 
-`;
+        <div class="product ${kifogyott ? "kifogyott" : ""}">
 
-});
+            <img
+                src="kepek/${t.kep}"
+                onclick="termekOldal(${index})"
+                style="cursor:pointer"
+            >
 
 
-frissitKosarSzamlalo();
+            <h2>${t.nev}</h2>
+
+
+            <p>${t.kat}</p>
+
+
+            <p class="price">
+                ${t.ar} Ft
+            </p>
+
+
+            <p class="${kifogyott ? "allapot-kifogyott" : "allapot-elerheto"}">
+                ${kifogyott ? "❌ Kifogyott" : "✅ Elérhető"}
+            </p>
+
+
+            <button
+                class="buy ${kifogyott ? "kifogyott-gomb" : ""}"
+                ${kifogyott ? "disabled" : ""}
+                onclick='kosarba(${JSON.stringify(t)})'
+            >
+                ${kifogyott ? "❌ Kifogyott" : "🛒 Kosárba"}
+            </button>
+
+
+            <button
+                class="favorite-button ${kedvenc ? "aktiv" : ""}"
+                onclick="kedvencToggle(${index})"
+            >
+                ${kedvenc ? "♥ Kedvenc" : "♡ Kedvencekhez"}
+            </button>
+
+        </div>
+
+        `;
+
+    });
+
+
+    frissitKosarSzamlalo();
 
 }
 
