@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="hu">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>CsillingShop Kosár</title>
+<title>CsillingShop - Kosár</title>
 
 <style>
 
@@ -15,130 +17,359 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #073b4c, #006f70, #00a6a6);
+
+    background:
+        linear-gradient(
+            135deg,
+            #073b4c,
+            #006f70,
+            #00a6a6
+        );
+
     min-height: 100vh;
     padding: 30px 15px;
+
     color: #123;
 }
 
 .box {
     max-width: 700px;
     margin: auto;
-    background: rgba(255,255,255,0.96);
+
+    background: rgba(255,255,255,0.97);
+
     padding: 30px;
+
     border-radius: 20px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,0.25);
 }
+
+/* =========================================
+   CÍM
+========================================= */
 
 h1 {
     text-align: center;
+
     color: #007f83;
+
     margin-top: 0;
     margin-bottom: 25px;
 }
 
 h2 {
     color: #006f70;
-    border-bottom: 2px solid #b9eeee;
+
+    border-bottom:
+        2px solid #b9eeee;
+
     padding-bottom: 8px;
 }
 
 h3 {
     color: #007f83;
+
     margin-bottom: 8px;
 }
 
-/* KOSÁR TERMÉKEK */
+/* =========================================
+   KOSÁR
+========================================= */
 
 .item {
+
     display: flex;
+
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(135deg, #e0fafa, #c8f1f1);
-    border: 1px solid #9cdddd;
+
+    gap: 15px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #e0fafa,
+            #c8f1f1
+        );
+
+    border:
+        1px solid #9cdddd;
+
     padding: 14px;
+
     margin: 12px 0;
+
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,100,100,0.08);
+
+    box-shadow:
+        0 4px 10px rgba(0,100,100,0.08);
 }
 
-.item span {
+.item-info {
+    min-width: 0;
+}
+
+.item-name {
     color: #155b5c;
+
+    font-weight: bold;
+
+    overflow-wrap: anywhere;
+}
+
+.item-price {
+    color: #007f83;
+
+    margin-top: 5px;
+
     font-weight: bold;
 }
 
-.item button {
+.remove-button {
+
     width: auto;
+
     background: #e74c3c;
+
+    color: white;
+
+    border: none;
+
     padding: 9px 13px;
+
     border-radius: 8px;
+
+    cursor: pointer;
+
+    flex-shrink: 0;
+
+    font-size: 16px;
 }
 
-.item button:hover {
+.remove-button:hover {
     background: #c0392b;
 }
 
-/* VÉGÖSSZEG */
+/* =========================================
+   ÜRES KOSÁR
+========================================= */
 
-#osszeg {
-    color: #00a19d;
-    font-size: 28px;
+.empty {
+
+    text-align: center;
+
+    padding: 25px 15px;
+
+    background:
+        #e0fafa;
+
+    border:
+        1px solid #9cdddd;
+
+    border-radius: 12px;
+
+    color: #176263;
+
+    font-weight: bold;
 }
 
-/* INPUTOK */
+/* =========================================
+   VÉGÖSSZEG
+========================================= */
+
+.summary {
+
+    background:
+        linear-gradient(
+            135deg,
+            #d9fafa,
+            #c3eeee
+        );
+
+    padding: 18px;
+
+    border-radius: 15px;
+
+    margin-top: 20px;
+
+    border:
+        1px solid #9cdddd;
+}
+
+.summary-row {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    margin: 8px 0;
+
+    color: #245d5e;
+}
+
+.summary-total {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-top: 15px;
+
+    padding-top: 15px;
+
+    border-top:
+        2px solid #9cdddd;
+
+    font-size: 21px;
+
+    font-weight: bold;
+
+    color: #007f83;
+}
+
+#osszeg {
+    font-size: 28px;
+
+    color: #00a19d;
+}
+
+/* =========================================
+   INPUTOK
+========================================= */
 
 input,
 select {
+
     width: 100%;
+
     padding: 13px;
+
     margin: 8px 0;
-    border: 2px solid #b5e5e5;
+
+    border:
+        2px solid #b5e5e5;
+
     border-radius: 10px;
-    background: #f2ffff;
+
+    background:
+        #f2ffff;
+
     color: #145b5c;
+
     font-size: 16px;
+
     outline: none;
 }
 
 input:focus,
 select:focus {
-    border-color: #00a6a6;
-    box-shadow: 0 0 0 3px rgba(0,166,166,0.12);
-}
 
-/* SELECT */
+    border-color:
+        #00a6a6;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(0,166,166,0.12);
+}
 
 select {
     cursor: pointer;
 }
 
-/* FŐ GOMB */
+/* =========================================
+   FIZETÉS GOMB
+========================================= */
 
-.box > button {
+.pay-button {
+
     width: 100%;
+
     margin-top: 20px;
-    background: linear-gradient(135deg, #00c6c6, #008f91);
+
+    background:
+        linear-gradient(
+            135deg,
+            #00c6c6,
+            #008f91
+        );
+
     color: white;
+
     border: none;
+
     padding: 14px;
+
     border-radius: 11px;
+
     cursor: pointer;
+
     font-size: 17px;
+
     font-weight: bold;
-    box-shadow: 0 5px 15px rgba(0,130,130,0.25);
+
+    box-shadow:
+        0 5px 15px
+        rgba(0,130,130,0.25);
+
     transition: 0.2s;
 }
 
-.box > button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0,130,130,0.35);
+.pay-button:hover {
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 8px 20px
+        rgba(0,130,130,0.35);
 }
 
-.box > button:active {
+.pay-button:active {
     transform: translateY(0);
 }
 
-/* MOBIL */
+/* =========================================
+   VISSZA
+========================================= */
+
+.back-button {
+
+    width: 100%;
+
+    margin-top: 10px;
+
+    padding: 12px;
+
+    border: 2px solid #00a6a6;
+
+    border-radius: 10px;
+
+    background: white;
+
+    color: #007f83;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.back-button:hover {
+
+    background:
+        #e0fafa;
+}
+
+/* =========================================
+   MOBIL
+========================================= */
 
 @media(max-width:700px) {
 
@@ -147,9 +378,14 @@ select {
     }
 
     .box {
+
         width: 100%;
-        padding: 20px 15px;
-        border-radius: 16px;
+
+        padding:
+            20px 15px;
+
+        border-radius:
+            16px;
     }
 
     h1 {
@@ -161,62 +397,156 @@ select {
     }
 
     .item {
-        gap: 10px;
+
         padding: 10px;
+
+        gap: 10px;
+    }
+
+    .item-name {
         font-size: 14px;
     }
 
-    .item span {
-        min-width: 0;
-        overflow-wrap: anywhere;
+    .item-price {
+        font-size: 14px;
     }
 
-    .item button {
-        width: auto;
-        flex: 0 0 auto;
+    .remove-button {
+        padding: 8px 10px;
     }
 
     input,
     select {
-        box-sizing: border-box;
         font-size: 16px;
     }
 
-    .box > button {
-        width: 100%;
+    .summary-total {
+        font-size: 18px;
     }
+
+    #osszeg {
+        font-size: 24px;
+    }
+
 }
 
 </style>
 
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-
 </head>
+
 
 <body>
 
+
 <div class="box">
 
-    <h1>🛒 CsillingShop Kosár</h1>
+    <h1>
+        🛒 CsillingShop Kosár
+    </h1>
+
+
+    <!-- =====================================
+         KOSÁR
+    ====================================== -->
 
     <div id="kosar"></div>
 
+
+    <!-- =====================================
+         ÖSSZEG
+    ====================================== -->
+
+    <div class="summary">
+
+        <div class="summary-row">
+
+            <span>
+                🛍️ Termékek:
+            </span>
+
+            <strong>
+                <span id="termekOsszeg">
+                    0
+                </span>
+                Ft
+            </strong>
+
+        </div>
+
+
+        <div class="summary-row">
+
+            <span>
+                🚚 Szállítás:
+            </span>
+
+            <strong>
+                <span id="szallitasOsszeg">
+                    0
+                </span>
+                Ft
+            </strong>
+
+        </div>
+
+
+        <div class="summary-total">
+
+            <span>
+                Végösszeg:
+            </span>
+
+            <span>
+                <span id="osszeg">
+                    0
+                </span>
+                Ft
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================
+         SZÁLLÍTÁSI ADATOK
+    ====================================== -->
+
     <h2>
-        Végösszeg:
-        <span id="osszeg">0</span> Ft
+        📦 Szállítási adatok
     </h2>
 
-    <h2>📦 Szállítási adatok</h2>
 
-    <input placeholder="Név">
+    <input
+        id="nev"
+        type="text"
+        placeholder="Név"
+        autocomplete="name"
+    >
 
-    <input placeholder="Cím">
 
-    <input placeholder="E-mail">
+    <input
+        id="cim"
+        type="text"
+        placeholder="Cím"
+        autocomplete="street-address"
+    >
 
-    <h3>🚚 Szállítási mód</h3>
 
-    <select id="szallitas" onchange="mutat()">
+    <input
+        id="email"
+        type="email"
+        placeholder="E-mail"
+        autocomplete="email"
+    >
+
+
+    <h3>
+        🚚 Szállítási mód
+    </h3>
+
+
+    <select id="szallitas">
 
         <option value="Csomagautomata - 999 Ft">
             📦 Csomagautomata - 999 Ft
@@ -232,266 +562,399 @@ select {
 
     </select>
 
-    <button onclick="fizetesre()">
-    💳 Tovább a fizetéshez
-</button>
+
+    <!-- =====================================
+         FIZETÉS
+    ====================================== -->
+
+    <button
+        class="pay-button"
+        onclick="fizetesre()"
+    >
+        💳 Tovább a fizetéshez
+    </button>
+
+
+    <button
+        class="back-button"
+        onclick="vissza()"
+    >
+        ← Vásárlás folytatása
+    </button>
+
 
 </div>
 
+
 <script>
 
-emailjs.init("f_7yUHQVlclTjAfvE");
+/* =========================================
+   KOSÁR BETÖLTÉSE
+========================================= */
 
-let kosar = JSON.parse(localStorage.getItem("kosar")) || [];
+let kosar =
+    JSON.parse(
+        localStorage.getItem("kosar")
+    ) || [];
 
+
+/* =========================================
+   SZÁLLÍTÁSI DÍJ
+========================================= */
 
 function szallitasiAr() {
 
-    let szallitas = document.getElementById("szallitas");
+    const szallitas =
+        document.getElementById(
+            "szallitas"
+        );
 
     if (!szallitas) {
         return 0;
     }
 
-    if (szallitas.value.includes("999")) {
+
+    if (
+        szallitas.value.includes("999")
+    ) {
         return 999;
     }
 
-    if (szallitas.value.includes("1990")) {
+
+    if (
+        szallitas.value.includes("1990")
+    ) {
         return 1990;
     }
+
 
     return 0;
 }
 
-function fizetesre() {
 
-    if (kosar.length === 0) {
-        alert("A kosarad üres!");
-        return;
-    }
-
-    let nev = document.querySelectorAll("input")[0].value;
-    let cim = document.querySelectorAll("input")[1].value;
-    let email = document.querySelectorAll("input")[2].value;
-
-    if (nev === "" || cim === "" || email === "") {
-        alert("Kérlek töltsd ki az adatokat!");
-        return;
-    }
-
-    localStorage.setItem("fizetes_nev", nev);
-    localStorage.setItem("fizetes_cim", cim);
-    localStorage.setItem("fizetes_email", email);
-    localStorage.setItem(
-    "fizetes_szallitas",
-    document.getElementById("szallitas").value
-);
-    window.location.href = "fizetes.html";
-}
+/* =========================================
+   KOSÁR MEGJELENÍTÉSE
+========================================= */
 
 function mutat() {
 
-    let lista = document.getElementById("kosar");
+    const lista =
+        document.getElementById(
+            "kosar"
+        );
 
-    let osszeg = 0;
 
     lista.innerHTML = "";
+
+
+    let termekOsszeg = 0;
+
 
     if (kosar.length === 0) {
 
         lista.innerHTML = `
-            <div class="item">
-                <span>🛒 A kosarad jelenleg üres.</span>
+
+            <div class="empty">
+
+                🛒 A kosarad jelenleg üres.
+
             </div>
+
         `;
 
     } else {
 
-        kosar.forEach((t, index) => {
+        kosar.forEach(
+            function(t, index) {
 
-            osszeg += Number(t.ar);
+                const ar =
+                    Number(t.ar) || 0;
 
-            lista.innerHTML += `
 
-                <div class="item">
+                termekOsszeg += ar;
 
-                    <span>
-                        ${t.nev}
-                        <br>
-                        ${t.ar} Ft
-                    </span>
 
-                    <button onclick="torol(${index})">
-                        ❌
-                    </button>
+                lista.innerHTML += `
 
-                </div>
+                    <div class="item">
 
-            `;
+                        <div class="item-info">
 
-        });
+                            <div class="item-name">
+                                ${escapeHTML(
+                                    t.nev || "Ismeretlen termék"
+                                )}
+                            </div>
+
+                            <div class="item-price">
+                                ${ar.toLocaleString(
+                                    "hu-HU"
+                                )} Ft
+                            </div>
+
+                        </div>
+
+
+                        <button
+                            class="remove-button"
+                            onclick="torol(${index})"
+                            title="Termék törlése"
+                        >
+                            ❌
+                        </button>
+
+                    </div>
+
+                `;
+
+            }
+        );
 
     }
 
-    let szallitasiDij = szallitasiAr();
 
-    document.getElementById("osszeg").innerHTML =
-        osszeg + szallitasiDij;
+    const szallitas =
+        szallitasiAr();
+
+
+    const vegosszeg =
+        termekOsszeg +
+        szallitas;
+
+
+    document.getElementById(
+        "termekOsszeg"
+    ).textContent =
+        termekOsszeg.toLocaleString(
+            "hu-HU"
+        );
+
+
+    document.getElementById(
+        "szallitasOsszeg"
+    ).textContent =
+        szallitas.toLocaleString(
+            "hu-HU"
+        );
+
+
+    document.getElementById(
+        "osszeg"
+    ).textContent =
+        vegosszeg.toLocaleString(
+            "hu-HU"
+        );
+
 }
 
+
+/* =========================================
+   HTML BIZTONSÁG
+========================================= */
+
+function escapeHTML(value) {
+
+    return String(value)
+
+        .replace(/&/g, "&amp;")
+
+        .replace(/</g, "&lt;")
+
+        .replace(/>/g, "&gt;")
+
+        .replace(/"/g, "&quot;")
+
+        .replace(/'/g, "&#039;");
+}
+
+
+/* =========================================
+   TERMÉK TÖRLÉSE
+========================================= */
 
 function torol(index) {
 
-    kosar.splice(index, 1);
+    if (
+        index < 0 ||
+        index >= kosar.length
+    ) {
+        return;
+    }
+
+
+    kosar.splice(
+        index,
+        1
+    );
+
 
     localStorage.setItem(
         "kosar",
-        JSON.stringify(kosar)
+        JSON.stringify(
+            kosar
+        )
     );
 
+
     mutat();
+
 }
 
 
-function rendeles() {
+/* =========================================
+   FIZETÉSRE TOVÁBBÍTÁS
+========================================= */
 
-    let nev =
-        document.querySelectorAll("input")[0].value;
+function fizetesre() {
 
-    let cim =
-        document.querySelectorAll("input")[1].value;
+    if (
+        kosar.length === 0
+    ) {
 
-    let email =
-        document.querySelectorAll("input")[2].value;
-
-    let szallitas =
-        document.getElementById("szallitas").value;
-
-
-    if (nev == "" || cim == "" || email == "") {
-
-        alert("Kérlek töltsd ki az adatokat!");
+        alert(
+            "🛒 A kosarad üres!"
+        );
 
         return;
     }
 
 
-    if (kosar.length === 0) {
+    const nev =
+        document.getElementById(
+            "nev"
+        ).value.trim();
 
-        alert("A kosarad üres!");
+
+    const cim =
+        document.getElementById(
+            "cim"
+        ).value.trim();
+
+
+    const email =
+        document.getElementById(
+            "email"
+        ).value.trim();
+
+
+    const szallitas =
+        document.getElementById(
+            "szallitas"
+        ).value;
+
+
+    /* =====================================
+       ADATOK ELLENŐRZÉSE
+    ====================================== */
+
+    if (
+        nev === "" ||
+        cim === "" ||
+        email === ""
+    ) {
+
+        alert(
+            "⚠️ Kérlek, töltsd ki az összes szállítási adatot!"
+        );
 
         return;
     }
 
 
-    let termekLista = "";
+    /* =====================================
+       E-MAIL ELLENŐRZÉSE
+    ====================================== */
 
-    let osszeg = 0;
-
-
-    kosar.forEach(t => {
-
-        termekLista +=
-            t.nev +
-            " - " +
-            t.ar +
-            " Ft<br>";
-
-        osszeg += Number(t.ar);
-
-    });
+    const emailMinta =
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 
-    let szallitasiDij = szallitasiAr();
+    if (
+        !emailMinta.test(email)
+    ) {
 
-    osszeg += szallitasiDij;
+        alert(
+            "⚠️ Kérlek, adj meg egy érvényes e-mail címet!"
+        );
 
-
-    let rendelesek =
-        JSON.parse(
-            localStorage.getItem("rendelesek")
-        ) || [];
-
-
-    let ujRendeles = {
-
-        nev: nev,
-
-        cim: cim,
-
-        email: email,
-
-        termekek: termekLista,
-
-        osszeg: osszeg,
-
-        allapot: "Új"
-
-    };
+        return;
+    }
 
 
-    rendelesek.push(ujRendeles);
+    /* =====================================
+       ADATOK MENTÉSE
+    ====================================== */
+
+    localStorage.setItem(
+        "fizetes_nev",
+        nev
+    );
 
 
     localStorage.setItem(
-        "rendelesek",
-        JSON.stringify(rendelesek)
+        "fizetes_cim",
+        cim
     );
 
 
-    emailjs.send(
-
-        "service_siwsf4p",
-
-        "template_r6bn9il",
-
-        {
-
-            nev: nev,
-
-            cim: cim,
-
-            email: email,
-
-            termekek: termekLista,
-
-            szallitas: szallitas,
-
-            osszeg: osszeg
-
-        }
-
-    )
-
-    .then(function() {
-
-        alert("Rendelés elküldve! 🎉");
-
-    })
-
-    .catch(function(error) {
-
-        alert(
-            "Hiba történt: " +
-            JSON.stringify(error)
-        );
-
-    });
+    localStorage.setItem(
+        "fizetes_email",
+        email
+    );
 
 
-    localStorage.removeItem("kosar");
+    localStorage.setItem(
+        "fizetes_szallitas",
+        szallitas
+    );
 
-    kosar = [];
 
-    mutat();
+    /* =====================================
+       FIZETÉS OLDAL
+    ====================================== */
+
+    window.location.href =
+        "fizetes.html";
 
 }
 
+
+/* =========================================
+   VISSZA A WEBSHOPBA
+========================================= */
+
+function vissza() {
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+/* =========================================
+   SZÁLLÍTÁS VÁLTOZÁSA
+========================================= */
+
+document.getElementById(
+    "szallitas"
+).addEventListener(
+    "change",
+    function() {
+
+        mutat();
+
+    }
+);
+
+
+/* =========================================
+   OLDAL BETÖLTÉS
+========================================= */
 
 mutat();
 
 </script>
+
 
 </body>
 </html>
